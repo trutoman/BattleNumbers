@@ -125,8 +125,9 @@ namespace SpriteData
         }
 
         public Sequences()
-        {
+        {           
             this.SequenceList = new List<Sequence>();
+            this.SequenceList.Add(new Sequence());
         }
 
         public override string ToString()
@@ -136,7 +137,7 @@ namespace SpriteData
     }
 
     [Serializable()]
-    class SpriteData
+    public class SpriteData
     {
         private string _FileName;
         public string FileName

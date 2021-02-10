@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="SpriteData.SpriteData">
+    <FileName>DaiManji</FileName>
+    <Sequences>
+        <SequenceList>
+          <Item>
+            <Name>spinning</Name>
+            <Count>24</Count>
+            <Frame>
+                <Duration>100</Duration>
+                <Ordinal>0</Ordinal>
+                <Rect>
+                    <X>2</X>
+                    <Y>2</Y>
+                    <Width>163</Width>
+                  <Height>116</Height>
+                </Rect>
+            </Frame>
+          </Item>
+        </SequenceList>
+    </Sequences>
+  </Asset>
+</XnaContent>

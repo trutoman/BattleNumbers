@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace BattleNumbers.ECS
 {
@@ -15,9 +14,9 @@ namespace BattleNumbers.ECS
         {
             get
             {
-                var result = from id in registeredEntityIds
-                             where Manager.EntityExists(id)
-                             select Manager.GetEntityById(id);
+                IEnumerable<Entity> result = from id in registeredEntityIds
+                                             where Manager.EntityExists(id)
+                                             select Manager.GetEntityById(id);
 
                 return result.ToList();
             }
@@ -79,7 +78,7 @@ namespace BattleNumbers.ECS
             {
                 registeredEntityIds.Remove(id);
             }
-        }        
+        }
 
         public void BindManager(Manager manager)
         {

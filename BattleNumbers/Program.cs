@@ -7,7 +7,7 @@ namespace BattleNumbers
         [STAThread]
         static void Main()
         {
-            using (var game = new BattleNumbers())
+            using (BattleNumbers game = new BattleNumbers())
                 game.Run();
         }
     }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpriteData
 {
@@ -88,9 +85,11 @@ namespace SpriteData
         }
 
         public Sequences()
-        {           
-            this.SequenceList = new List<Sequence>();
-            this.SequenceList.Add(new Sequence());
+        {
+            this.SequenceList = new List<Sequence>
+            {
+                new Sequence()
+            };
         }
 
         public override string ToString()

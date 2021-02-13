@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BattleNumbers.ECS
 {
@@ -35,8 +34,8 @@ namespace BattleNumbers.ECS
             return entities[id];
         }
 
-        public Boolean EntityExists(int id)
-        { 
+        public bool EntityExists(int id)
+        {
             return entities.ContainsKey(id);
         }
 

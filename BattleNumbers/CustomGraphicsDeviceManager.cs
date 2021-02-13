@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace BattleNumbers
 {
@@ -16,12 +13,12 @@ namespace BattleNumbers
             set { isWideScreenOnly = value; }
         }
 
-        static float WideScreenRatio = 1.77f; 
+        static float WideScreenRatio = 1.77f;
 
         public CustomGraphicsDeviceManager(Game game)
             : base(game)
         {
-            
+
         }
     }
 }

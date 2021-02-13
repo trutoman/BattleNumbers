@@ -1,10 +1,8 @@
 ﻿using BattleNumbers.Scene;
 using BattleNumbers.Scenes;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Xml;
 
 namespace BattleNumbers
 {
@@ -14,7 +12,7 @@ namespace BattleNumbers
         private SpriteBatch spriteBatch;
         private GameContent gameContent;
         private SceneManager sceneManager;
-        
+
         private int screenWidth = 0;
         private int screenHeight = 0;
         public BattleNumbers()
@@ -36,7 +34,7 @@ namespace BattleNumbers
         protected override void Initialize()
         {
             Components.Add(sceneManager);
-            base.Initialize();            
+            base.Initialize();
         }
 
         protected override void LoadContent()
@@ -45,7 +43,7 @@ namespace BattleNumbers
             gameContent = new GameContent(Content);
             screenWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             screenHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            
+
             if (screenWidth >= this.graphics.PreferredBackBufferWidth)
             {
                 screenWidth = this.graphics.PreferredBackBufferWidth;
@@ -56,19 +54,19 @@ namespace BattleNumbers
             }
             graphics.ApplyChanges();
 
-            this.sceneManager.LoadScene(new GameBaseScene(this));            
+            this.sceneManager.LoadScene(new GameBaseScene(this));
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
-        {                       
+        {
             base.Draw(gameTime);
         }
         public SpriteBatch GetSpriteBatch() => this.spriteBatch;

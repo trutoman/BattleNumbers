@@ -1,10 +1,6 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using BattleNumbers.Scenes;
+using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using SpriteData;
-using BattleNumbers.Scenes;
 
 namespace BattleNumbers.Scene
 {
@@ -55,7 +51,7 @@ namespace BattleNumbers.Scene
             set { _Data = value; }
         }
 
-        private bool _isPaused;        
+        private bool _isPaused;
         public bool isPaused
         {
             get { return _isPaused; }
@@ -104,7 +100,7 @@ namespace BattleNumbers.Scene
 
         public void Dispose()
         {
-            
+
         }
     }
 }

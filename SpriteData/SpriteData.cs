@@ -9,29 +9,10 @@ namespace SpriteData
     [Serializable()]
     public class FrameRect
     {
-        private int _X;
-        public int X
-        {
-            get; set;
-        }
-
-        private int _Y;
-        public int Y
-        {
-            get; set;
-        }
-
-        private int _Width;
-        public int Width
-        {
-            get; set;
-        }
-
-        private int _Height;
-        public int Height
-        {
-            get; set;
-        }
+        public int X;
+        public int Y;
+        public int Width;
+        public int Height;
 
         public FrameRect()
         {
@@ -56,27 +37,16 @@ namespace SpriteData
             get; set;
         }
 
-        private int _Ordinal;
-        public int Ordinal
-        {
-            get; set;
-        }
-
-        private FrameRect _Rect;
-        public FrameRect Rect
-        {
-            get; set;
-        }
+        public FrameRect Rect;
 
         public Frame()
         {
             this.Duration = 0f;
-            this.Ordinal = 0;
             this.Rect = new FrameRect();
         }
         public override string ToString()
         {
-            string returnValue = $"( {this.Duration.ToString()}, {this.Ordinal.ToString()}, { this.Rect.ToString()} )";
+            string returnValue = $"( {this.Duration.ToString()}, { this.Rect.ToString()} )";
             return returnValue;
         }
     }
@@ -90,14 +60,8 @@ namespace SpriteData
             get; set;
         }
 
-        private int _Count;
-        public int Count
-        {
-            get; set;
-        }
-
-        private Frame _Frame;
-        public Frame Frame
+        private List<Frame> _Frames;
+        public List<Frame> Frames
         {
             get; set;
         }
@@ -105,12 +69,11 @@ namespace SpriteData
         public Sequence()
         {
             this.Name = string.Empty;
-            this.Count = 0;
-            this.Frame = new Frame();
+            this.Frames = new List<Frame>();
         }
         public override string ToString()
         {
-            string returnValue = $"( {this.Name}, {this.Count.ToString()}, {this.Frame.ToString()} )";
+            string returnValue = $"( {this.Name}, {this.Frames.ToString()} )";
             return returnValue;
         }
     }
@@ -141,6 +104,12 @@ namespace SpriteData
     {
         private string _FileName;
         public string FileName
+        {
+            get; set;
+        }
+
+        private string _InitSequence;
+        public string InitSequence
         {
             get; set;
         }

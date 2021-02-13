@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BattleNumbers.Scene;
+using BattleNumbers.Scenes;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -8,32 +10,33 @@ namespace BattleNumbers
 {
     public class BattleNumbers : Game
     {
-
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private GameContent gameContent;
-        private DaiManji daiManji;
+        private SceneManager sceneManager;
+        
         private int screenWidth = 0;
         private int screenHeight = 0;
-
         public BattleNumbers()
         {
-
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
             this.graphics.PreferMultiSampling = false;
             this.graphics.PreferredBackBufferWidth = 1280;
             this.graphics.PreferredBackBufferHeight = 720;
+
             //this._graphics.IsFullScreen = true;            
             this.graphics.ApplyChanges();
             IsMouseVisible = true;
+
+            this.sceneManager = new SceneManager(this);
         }
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            base.Initialize();
+            Components.Add(sceneManager);
+            base.Initialize();            
         }
 
         protected override void LoadContent()
@@ -42,7 +45,7 @@ namespace BattleNumbers
             gameContent = new GameContent(Content);
             screenWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             screenHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            //set game to 502x700 or screen max if smaller
+            
             if (screenWidth >= this.graphics.PreferredBackBufferWidth)
             {
                 screenWidth = this.graphics.PreferredBackBufferWidth;
@@ -53,28 +56,22 @@ namespace BattleNumbers
             }
             graphics.ApplyChanges();
 
-            //create game objects
-            int daiManjiInitialX = 0;
-            //we'll center the paddle on the screen to start
-            int daiManjiInitialY = 0;  //paddle will be 100 pixels from the bottom of the screen
-            daiManji = new DaiManji(daiManjiInitialX, daiManjiInitialY, screenWidth, spriteBatch, gameContent);  // create the game paddle
+            this.sceneManager.LoadScene(new GameBaseScene(this));            
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            // TODO: Add your update logic here                      
+            
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
-        {
-            spriteBatch.Begin();
-            daiManji.Draw();
-            spriteBatch.End();
+        {                       
             base.Draw(gameTime);
         }
+        public SpriteBatch GetSpriteBatch() => this.spriteBatch;
+        public GameContent GetGameContent() => this.gameContent;
     }
 }

@@ -3,3 +3,4 @@ C:\GIT\BattleNumbers\SpriteData\bin\Debug\SpriteData.pdb
 C:\GIT\BattleNumbers\SpriteData\obj\Debug\SpriteData.csproj.CoreCompileInputs.cache
 C:\GIT\BattleNumbers\SpriteData\obj\Debug\SpriteData.dll
 C:\GIT\BattleNumbers\SpriteData\obj\Debug\SpriteData.pdb
+C:\GIT\BattleNumbers\SpriteData\obj\Debug\SpriteData.csprojAssemblyReference.cache

@@ -8,9 +8,7 @@ namespace BattleNumbers
 {
     public class BattleNumbers : Game
     {
-        private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
-        private GameContent gameContent;
+        private GraphicsDeviceManager graphics;                
         private SceneManager sceneManager;
 
         private int screenWidth = 0;
@@ -38,9 +36,7 @@ namespace BattleNumbers
         }
 
         protected override void LoadContent()
-        {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            gameContent = new GameContent(Content);
+        {                       
             screenWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             screenHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 
@@ -68,8 +64,6 @@ namespace BattleNumbers
         protected override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
-        }
-        public SpriteBatch GetSpriteBatch() => this.spriteBatch;
-        public GameContent GetGameContent() => this.gameContent;
+        }             
     }
 }

@@ -7,10 +7,10 @@
       <SequenceList>
         <Item>
           <Name>spinning</Name>
+		  <FramesPerSecond>24</FramesPerSecond>
           <Frames>
             <!-- ROW 1 -->
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>2</X>
                 <Y>2</Y>
@@ -19,7 +19,6 @@
               </Rect>
             </Item>
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>166</X>
                 <Y>2</Y>
@@ -28,7 +27,6 @@
               </Rect>
             </Item>
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>330</X>
                 <Y>2</Y>
@@ -38,7 +36,6 @@
             </Item>
             <!-- ROW 2 -->
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>2</X>
                 <Y>119</Y>
@@ -47,7 +44,6 @@
               </Rect>
             </Item>
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>166</X>
                 <Y>119</Y>
@@ -56,7 +52,6 @@
               </Rect>
             </Item>
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>330</X>
                 <Y>119</Y>
@@ -66,7 +61,6 @@
             </Item>
             <!-- ROW 3 -->
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>2</X>
                 <Y>236</Y>
@@ -75,7 +69,6 @@
               </Rect>
             </Item>
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>166</X>
                 <Y>236</Y>
@@ -84,7 +77,6 @@
               </Rect>
             </Item>
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>330</X>
                 <Y>236</Y>
@@ -94,7 +86,6 @@
             </Item>
             <!-- ROW 4 -->
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>2</X>
                 <Y>353</Y>
@@ -103,7 +94,6 @@
               </Rect>
             </Item>
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>166</X>
                 <Y>353</Y>
@@ -112,7 +102,6 @@
               </Rect>
             </Item>
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>330</X>
                 <Y>353</Y>
@@ -122,7 +111,6 @@
             </Item>
             <!-- ROW 5 -->
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>2</X>
                 <Y>470</Y>
@@ -131,7 +119,6 @@
               </Rect>
             </Item>
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>166</X>
                 <Y>470</Y>
@@ -140,7 +127,6 @@
               </Rect>
             </Item>
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>330</X>
                 <Y>470</Y>
@@ -150,7 +136,6 @@
             </Item>
             <!-- ROW 6 -->
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>2</X>
                 <Y>587</Y>
@@ -159,7 +144,6 @@
               </Rect>
             </Item>
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>166</X>
                 <Y>587</Y>
@@ -168,7 +152,6 @@
               </Rect>
             </Item>
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>330</X>
                 <Y>587</Y>
@@ -178,7 +161,6 @@
             </Item>
             <!-- ROW 7 -->
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>2</X>
                 <Y>704</Y>
@@ -187,7 +169,6 @@
               </Rect>
             </Item>
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>166</X>
                 <Y>704</Y>
@@ -196,7 +177,6 @@
               </Rect>
             </Item>
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>330</X>
                 <Y>704</Y>
@@ -206,7 +186,6 @@
             </Item>
             <!-- ROW 8 -->
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>2</X>
                 <Y>821</Y>
@@ -215,7 +194,6 @@
               </Rect>
             </Item>
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>166</X>
                 <Y>821</Y>
@@ -224,7 +202,6 @@
               </Rect>
             </Item>
             <Item>
-              <Duration>100</Duration>
               <Rect>
                 <X>330</X>
                 <Y>821</Y>

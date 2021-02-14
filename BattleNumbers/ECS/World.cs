@@ -3,23 +3,25 @@ using System.Collections.Generic;
 
 namespace BattleNumbers.ECS
 {
-    public class Manager
+    public class World
     {
-        private Dictionary<int, Entity> entities;
-        private Dictionary<Type, System> systems;
+        private BattleNumbers game;
+        private Dictionary<int, ECSEntity> entities;
+        private Dictionary<Type, ECSSystem> systems;
         private List<int> toDelete;
         private int currentId = 0;
 
-        public Manager()
+        public World(BattleNumbers game)
         {
-            entities = new Dictionary<int, Entity>();
-            systems = new Dictionary<Type, System>();
-            toDelete = new List<int>();
+            this.game = game;
+            this.entities = new Dictionary<int, ECSEntity>();
+            this.systems = new Dictionary<Type, ECSSystem>();
+            this.toDelete = new List<int>();
         }
 
-        public Entity AddAndGetEntity()
+        public ECSEntity AddAndGetEntity()
         {
-            Entity entity = new Entity(currentId++);
+            ECSEntity entity = new ECSEntity(currentId++);
             entities[entity.Id] = entity;
             return entity;
         }
@@ -29,7 +31,7 @@ namespace BattleNumbers.ECS
             toDelete.Add(id);
         }
 
-        public Entity GetEntityById(int id)
+        public ECSEntity GetEntityById(int id)
         {
             return entities[id];
         }
@@ -39,20 +41,20 @@ namespace BattleNumbers.ECS
             return entities.ContainsKey(id);
         }
 
-        public void AddSystem(System system)
+        public void AddSystem(ECSSystem system)
         {
             systems[system.GetType()] = system;
             system.BindManager(this);
         }
 
-        public T GetSystem<T>() where T : System
+        public T GetSystem<T>() where T : ECSSystem
         {
             return (T)systems[typeof(T)];
         }
 
         public void Update(float deltaTime)
         {
-            foreach (System system in systems.Values)
+            foreach (ECSSystem system in systems.Values)
             {
                 system.UpdateAll(deltaTime);
             }
@@ -66,7 +68,7 @@ namespace BattleNumbers.ECS
                 if (!EntityExists(id)) //safeguard against deleting twice
                     continue;
 
-                foreach (System system in systems.Values)
+                foreach (ECSSystem system in systems.Values)
                 {
                     system.DeleteEntity(id);
                 }
@@ -76,21 +78,21 @@ namespace BattleNumbers.ECS
             toDelete.Clear();
         }
 
-        private void UpdateEntityRegistration(Entity entity)
+        private void UpdateEntityRegistration(ECSEntity entity)
         {
-            foreach (System system in systems.Values)
+            foreach (ECSSystem system in systems.Values)
             {
                 system.UpdateEntityRegistration(entity);
             }
         }
 
-        public void AddComponentToEntity(Entity entity, Component component)
+        public void AddComponentToEntity(ECSEntity entity, ECSComponent component)
         {
             entity.AddComponent(component);
             UpdateEntityRegistration(entity);
         }
 
-        public void RemoveComponentFromEntity<T>(Entity entity) where T : Component
+        public void RemoveComponentFromEntity<T>(ECSEntity entity) where T : ECSComponent
         {
             entity.RemoveComponent<T>();
             UpdateEntityRegistration(entity);

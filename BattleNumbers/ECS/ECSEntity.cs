@@ -3,28 +3,28 @@ using System.Collections.Generic;
 
 namespace BattleNumbers.ECS
 {
-    public class Entity
+    public class ECSEntity
     {
         public int Id { get; private set; }
-        private Dictionary<Type, Component> components;
+        private Dictionary<Type, ECSComponent> components;
 
-        public Entity(int id)
+        public ECSEntity(int id)
         {
             Id = id;
-            components = new Dictionary<Type, Component>();
+            components = new Dictionary<Type, ECSComponent>();
         }
 
-        internal void AddComponent(Component component)
+        internal void AddComponent(ECSComponent component)
         {
             components[component.GetType()] = component;
         }
 
-        internal void RemoveComponent<T>() where T : Component
+        internal void RemoveComponent<T>() where T : ECSComponent
         {
             components.Remove(typeof(T));
         }
 
-        public T GetComponent<T>() where T : Component
+        public T GetComponent<T>() where T : ECSComponent
         {
             return (T)components[typeof(T)];
         }
@@ -34,7 +34,7 @@ namespace BattleNumbers.ECS
             return components.ContainsKey(componentType);
         }
 
-        public bool HasComponent<T>() where T : Component
+        public bool HasComponent<T>() where T : ECSComponent
         {
             return components.ContainsKey(typeof(T));
         }

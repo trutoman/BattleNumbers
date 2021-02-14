@@ -28,22 +28,15 @@ namespace SpriteData
     [Serializable()]
     public class Frame
     {
-        private float _Duration;
-        public float Duration
-        {
-            get; set;
-        }
-
         public FrameRect Rect;
 
         public Frame()
         {
-            this.Duration = 0f;
             this.Rect = new FrameRect();
         }
         public override string ToString()
         {
-            string returnValue = $"( {this.Duration.ToString()}, { this.Rect.ToString()} )";
+            string returnValue = $"( {this.Rect.ToString()} )";
             return returnValue;
         }
     }
@@ -57,6 +50,14 @@ namespace SpriteData
             get; set;
         }
 
+        private const int defaultFramesPerSecond = 24;
+
+        private int _FramesPerSecond;
+        public int FramesPerSecond
+        {
+            get; set;
+        }
+
         private List<Frame> _Frames;
         public List<Frame> Frames
         {
@@ -66,6 +67,7 @@ namespace SpriteData
         public Sequence()
         {
             this.Name = string.Empty;
+            this.FramesPerSecond = Sequence.defaultFramesPerSecond;
             this.Frames = new List<Frame>();
         }
         public override string ToString()

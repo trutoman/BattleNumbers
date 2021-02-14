@@ -7,6 +7,7 @@ namespace BattleNumbers
     public class GameContent
     {
         public Texture2D daiManjiSheet { get; set; }
+        public Texture2D background { get; set; }
         public SpriteData.SpriteData daiManjiData { get; set; }
         public SoundEffect clickSound { get; set; }
         public SpriteFont baseFont { get; set; }
@@ -14,6 +15,9 @@ namespace BattleNumbers
         public GameContent(ContentManager Content)
         {
             //load images
+            background = Content.Load<Texture2D>("images/external");
+
+            //load sprites
             daiManjiSheet = Content.Load<Texture2D>("sprites/DaiManji");
             daiManjiData = Content.Load<SpriteData.SpriteData>("sprites/DaiManji_Data");
 

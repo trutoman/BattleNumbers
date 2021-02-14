@@ -1,5 +1,9 @@
-﻿using BattleNumbers.Scenes;
+﻿using BattleNumbers.ECS;
+using BattleNumbers.ECSComponents;
+using BattleNumbers.ECSSystems;
+using BattleNumbers.Scenes;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 
 namespace BattleNumbers.Scene
@@ -7,9 +11,7 @@ namespace BattleNumbers.Scene
     public class GameBaseScene : IScene
     {
         private BattleNumbers myGame;
-
-        private Sprite actor1;
-        private GameContent gameContent;
+        private World world;
 
         public event EventHandler<EventArgs> DrawOrderChanged;
         public event EventHandler<EventArgs> VisibleChanged;
@@ -68,8 +70,26 @@ namespace BattleNumbers.Scene
 
         public void LoadContent()
         {
-            actor1 = new Sprite(this.myGame.GetGameContent().daiManjiSheet, this.myGame.GetGameContent().daiManjiData, this.myGame.GetSpriteBatch());
-            actor1.FramesPerSecond(40);
+            GameContent gameContent = new GameContent(this.myGame.Content);
+
+            this.world = new World(this.myGame);
+
+            ECSEntity entity1 = world.AddAndGetEntity();
+            entity1.AddComponent(new PositionComponent(0,0));
+            entity1.AddComponent(new RendererComponent(gameContent.background));
+
+            ECSEntity entity2 = world.AddAndGetEntity();
+            entity2.AddComponent(new PositionComponent(100, 200));
+            entity2.AddComponent(new SpriteComponent(gameContent.daiManjiSheet, gameContent.daiManjiData));
+
+            ECSSystem renderedSystem = new RendererSystem(world, this.myGame);
+
+            renderedSystem.UpdateEntityRegistration(entity1);
+            renderedSystem.UpdateEntityRegistration(entity2);
+
+            world.AddSystem(new RendererSystem(world, this.myGame));
+
+
         }
 
         public void UnloadContent()
@@ -88,14 +108,14 @@ namespace BattleNumbers.Scene
             {
                 if (!this.isPaused)
                 {
-                    actor1.Update(gameTime);
+                    world.Update(gameTime.ElapsedGameTime.Milliseconds);
                 }
             }
         }
 
         public void Draw(GameTime gameTime)
         {
-            actor1.Draw(Color.White);
+            //actor1.Draw(Color.White);
         }
 
         public void Dispose()

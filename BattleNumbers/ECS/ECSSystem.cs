@@ -4,17 +4,17 @@ using System.Linq;
 
 namespace BattleNumbers.ECS
 {
-    public abstract class System
+    public abstract class ECSSystem
     {
         private HashSet<int> registeredEntityIds;
         private List<Type> requiredComponents;
-        protected Manager Manager;
+        protected World Manager;
 
-        protected List<Entity> Entities
+        protected List<ECSEntity> Entities
         {
             get
             {
-                IEnumerable<Entity> result = from id in registeredEntityIds
+                IEnumerable<ECSEntity> result = from id in registeredEntityIds
                                              where Manager.EntityExists(id)
                                              select Manager.GetEntityById(id);
 
@@ -22,13 +22,13 @@ namespace BattleNumbers.ECS
             }
         }
 
-        protected System()
+        protected ECSSystem()
         {
             registeredEntityIds = new HashSet<int>();
             requiredComponents = new List<Type>();
         }
 
-        public void UpdateEntityRegistration(Entity entity)
+        public void UpdateEntityRegistration(ECSEntity entity)
         {
             bool matches = Matches(entity);
             if (registeredEntityIds.Contains(entity.Id))
@@ -47,7 +47,7 @@ namespace BattleNumbers.ECS
             }
         }
 
-        private bool Matches(Entity entity)
+        private bool Matches(ECSEntity entity)
         {
             foreach (Type required in requiredComponents)
             {
@@ -57,20 +57,21 @@ namespace BattleNumbers.ECS
             return true;
         }
 
-        protected void AddRequiredComponent<T>() where T : Component
+        protected void AddRequiredComponent<T>() where T : ECSComponent
         {
             requiredComponents.Add(typeof(T));
         }
 
         public virtual void UpdateAll(float deltaTime)
         {
-            foreach (Entity entity in Entities)
+            foreach (ECSEntity entity in Entities)
             {
+                UpdateEntityRegistration(entity);
                 Update(entity, deltaTime);
             }
         }
 
-        protected abstract void Update(Entity entity, float deltaTime);
+        protected abstract void Update(ECSEntity entity, float deltaTime);
 
         public virtual void DeleteEntity(int id)
         {
@@ -80,7 +81,7 @@ namespace BattleNumbers.ECS
             }
         }
 
-        public void BindManager(Manager manager)
+        public void BindManager(World manager)
         {
             Manager = manager;
         }

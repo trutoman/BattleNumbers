@@ -69,18 +69,6 @@ namespace BattleNumbers
             set { _isPaused = value; }
         }
 
-        private Sequence GetSequence(string sequenceName)
-        {
-            foreach (Sequence currentSeq in this.Data.Sequences.SequenceList)
-            {
-                if (currentSeq.Name == sequenceName)
-                {
-                    return currentSeq;
-                }
-            }
-            return new Sequence();
-        }
-
         public Sprite(Texture2D texture, SpriteData.SpriteData data, SpriteBatch batch)
         {
             this.texture = texture;
@@ -93,8 +81,20 @@ namespace BattleNumbers
             this.Visible = true;
             this.currentIndex = 0;
             this.isPaused = false;
-            this.currentSequence = GetSequence(this.Data.InitSequence);
+            this.currentSequence = GetSequence(this.Data.InitSequence);            
             this.currentFrame = this.currentSequence.Frames[this.currentIndex];
+        }
+
+        private Sequence GetSequence(string sequenceName)
+        {
+            foreach (Sequence currentSeq in this.Data.Sequences.SequenceList)
+            {
+                if (currentSeq.Name == sequenceName)
+                {
+                    return currentSeq;
+                }
+            }
+            return new Sequence();
         }
 
         public void Pause(bool value)
@@ -104,35 +104,29 @@ namespace BattleNumbers
 
         public void FramesPerSecond(int speed)
         {
-            int frameDuration = (1 / speed) * Sprite.milisecPerSec;
-            foreach (Sequence currentSeq in this.Data.Sequences.SequenceList)
-            {
-                foreach (Frame frame in currentSeq.Frames)
-                {
-                    frame.Duration = frameDuration;
-                }
-            }
+            float frameDuration = (1f / (float)speed) * (float)Sprite.milisecPerSec;
+            //this.FramesPerSecond = frameDuration;
         }
 
         public void Update(GameTime gameTime)
         {
-            if (this.Enabled)
-            {
-                if (!this.isPaused)
-                {
-                    this.accumulatedTime += gameTime.ElapsedGameTime.TotalMilliseconds;
-                    if (this.accumulatedTime >= this.currentFrame.Duration)
-                    {
-                        this.accumulatedTime = 0;
-                        this.currentIndex++;
-                        if (this.currentIndex > this.currentSequence.Frames.Count - 1)
-                        {
-                            this.currentIndex = 0;
-                        }
-                        this.currentFrame = this.currentSequence.Frames[this.currentIndex];
-                    }
-                }
-            }
+            //if (this.Enabled)
+            //{
+            //    if (!this.isPaused)
+            //    {
+            //        this.accumulatedTime += gameTime.ElapsedGameTime.TotalMilliseconds;
+            //        if (this.accumulatedTime >= this.currentFrame.Duration)
+            //        {
+            //            this.accumulatedTime = 0;
+            //            this.currentIndex++;
+            //            if (this.currentIndex > this.currentSequence.Frames.Count - 1)
+            //            {
+            //                this.currentIndex = 0;
+            //            }
+            //            this.currentFrame = this.currentSequence.Frames[this.currentIndex];
+            //        }
+            //    }
+            //}
         }
         public void Draw(GameTime gameTime)
         {

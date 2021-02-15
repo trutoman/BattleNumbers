@@ -11,10 +11,8 @@ namespace BattleNumbers.Scene
     public class GameBaseScene : IScene
     {
         private BattleNumbers myGame;
-        private World world;
+        private ECSWorld world;
 
-        public event EventHandler<EventArgs> DrawOrderChanged;
-        public event EventHandler<EventArgs> VisibleChanged;
         public event EventHandler<EventArgs> EnabledChanged;
         public event EventHandler<EventArgs> UpdateOrderChanged;
 
@@ -23,20 +21,6 @@ namespace BattleNumbers.Scene
         {
             get { return _Enabled; }
             set { _Enabled = value; }
-        }
-
-        private bool _Visible;
-        public bool Visible
-        {
-            get { return _Visible; }
-            set { _Visible = value; }
-        }
-
-        private int _DrawOrder;
-        public int DrawOrder
-        {
-            get { return _DrawOrder; }
-            set { _DrawOrder = value; }
         }
 
         private int _UpdateOrder;
@@ -64,7 +48,6 @@ namespace BattleNumbers.Scene
         {
             this.myGame = game;
             this.Enabled = true;
-            this.Visible = true;
             this.isPaused = false;
         }
 
@@ -72,7 +55,7 @@ namespace BattleNumbers.Scene
         {
             GameContent gameContent = new GameContent(this.myGame.Content);
 
-            this.world = new World(this.myGame);
+            this.world = new ECSWorld(this.myGame);
 
             ECSEntity entity1 = world.AddAndGetEntity();
             entity1.AddComponent(new PositionComponent(0,0));
@@ -82,13 +65,12 @@ namespace BattleNumbers.Scene
             entity2.AddComponent(new PositionComponent(100, 200));
             entity2.AddComponent(new SpriteComponent(gameContent.daiManjiSheet, gameContent.daiManjiData));
 
-            ECSSystem renderedSystem = new RendererSystem(world, this.myGame);
+            ECSSystem renderedSystem = new RendererSystem(world);
 
-            renderedSystem.UpdateEntityRegistration(entity1);
-            renderedSystem.UpdateEntityRegistration(entity2);
+            world.AddSystem(renderedSystem);
 
-            world.AddSystem(new RendererSystem(world, this.myGame));
-
+            world.GetSystem<RendererSystem>().UpdateEntityRegistration(entity1);
+            world.GetSystem<RendererSystem>().UpdateEntityRegistration(entity2);
 
         }
 
@@ -115,9 +97,11 @@ namespace BattleNumbers.Scene
 
         public void Draw(GameTime gameTime)
         {
-            //actor1.Draw(Color.White);
+            if (this.Enabled)
+            {
+                world.Draw(gameTime);
+            }
         }
-
         public void Dispose()
         {
 

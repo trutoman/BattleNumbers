@@ -8,16 +8,15 @@ namespace BattleNumbers.ECS
     {
         private HashSet<int> registeredEntityIds;
         private List<Type> requiredComponents;
-        protected World Manager;
+        protected ECSWorld World;
 
         protected List<ECSEntity> Entities
         {
             get
             {
                 IEnumerable<ECSEntity> result = from id in registeredEntityIds
-                                             where Manager.EntityExists(id)
-                                             select Manager.GetEntityById(id);
-
+                                             where World.EntityExists(id)
+                                             select World.GetEntityById(id);
                 return result.ToList();
             }
         }
@@ -81,9 +80,9 @@ namespace BattleNumbers.ECS
             }
         }
 
-        public void BindManager(World manager)
+        public void BindWorld(ECSWorld manager)
         {
-            Manager = manager;
+            World = manager;
         }
 
     }

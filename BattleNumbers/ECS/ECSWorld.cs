@@ -1,17 +1,19 @@
-﻿using System;
+﻿using BattleNumbers.ECSSystems;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace BattleNumbers.ECS
 {
-    public class World
+    public class ECSWorld
     {
-        private BattleNumbers game;
+        public BattleNumbers game { get; set; }
         private Dictionary<int, ECSEntity> entities;
         private Dictionary<Type, ECSSystem> systems;
         private List<int> toDelete;
         private int currentId = 0;
 
-        public World(BattleNumbers game)
+        public ECSWorld(BattleNumbers game)
         {
             this.game = game;
             this.entities = new Dictionary<int, ECSEntity>();
@@ -44,7 +46,7 @@ namespace BattleNumbers.ECS
         public void AddSystem(ECSSystem system)
         {
             systems[system.GetType()] = system;
-            system.BindManager(this);
+            system.BindWorld(this);
         }
 
         public T GetSystem<T>() where T : ECSSystem
@@ -57,6 +59,21 @@ namespace BattleNumbers.ECS
             foreach (ECSSystem system in systems.Values)
             {
                 system.UpdateAll(deltaTime);
+            }
+            Flush();
+        }
+
+        public void Draw(GameTime gameTime)
+        {
+            IDrawSystem drawableObject;
+
+            foreach (ECSSystem system in systems.Values)
+            {
+                if (system is IDrawSystem)
+                {
+                    drawableObject = (IDrawSystem)system;
+                    drawableObject.Draw(gameTime);
+                }
             }
             Flush();
         }

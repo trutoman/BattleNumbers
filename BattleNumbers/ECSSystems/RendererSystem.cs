@@ -5,17 +5,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace BattleNumbers.ECSSystems
 {
-    public class RendererSystem : ECSSystem
+    public class RendererSystem : ECSSystem, IDrawSystem
     {
-        private readonly BattleNumbers Game;
         private readonly SpriteBatch Batch;
 
-        public RendererSystem(World world,BattleNumbers game)
-        {
-            this.Game = game;
+        public RendererSystem(ECSWorld world)
+        {            
+            this.BindWorld(world);
+            this.Batch = new SpriteBatch(this.World.game.GraphicsDevice);
             AddRequiredComponent<PositionComponent>();
-            AddRequiredComponent<RendererComponent>();
-            this.BindManager(world);
+            AddRequiredComponent<RendererComponent>();            
         }
 
         // This method Update individual entities registered

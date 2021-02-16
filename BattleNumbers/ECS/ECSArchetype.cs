@@ -4,11 +4,11 @@ using System.Text;
 
 namespace BattleNumbers.ECS
 {
-    public abstract class Archetype
+    public abstract class ECSArchetype
     {
         private Type[] _componentTypes;
 
-        protected Archetype(Type[] componentTypes)
+        protected ECSArchetype(Type[] componentTypes)
         {
             _componentTypes = componentTypes;
         }

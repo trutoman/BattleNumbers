@@ -5,10 +5,10 @@ using SpriteData;
 
 namespace BattleNumbers.ECSComponents
 {
-    class SpriteComponent : ECSComponent
+    class SpriteComponent : IECSComponent
     {
-        private Texture2D MainTexture { get; set; }
-        private SpriteData.SpriteData Data { get; set; }       
+        public Texture2D MainTexture { get; set; }
+        public SpriteData.SpriteData Data { get; set; }       
         private SpriteData.Sequence CurrentSequence { get; set; }
         private int CurrentFrame { get; set; }
         public int accumulatedTime { get; set; }
@@ -55,12 +55,8 @@ namespace BattleNumbers.ECSComponents
             return new Sequence();
         }
 
-        public SpriteComponent(Texture2D texture, SpriteData.SpriteData data)
-        {
-            this.MainTexture = texture;
-            this.Data = data;
-            this.CurrentSequence = GetSequence(this.Data.InitSequence);
-            this.FramesPerSecond = this.CurrentSequence.FramesPerSecond;
+        public SpriteComponent()
+        {                       
             this.accumulatedTime = 0;
             this.CurrentFrame = 0;
             this.IsVisible = true;

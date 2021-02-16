@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,16 +8,16 @@ namespace BattleNumbers.ECS
     public abstract class ECSSystem
     {
         private HashSet<int> registeredEntityIds;
-        private List<Type> requiredComponents;
         protected ECSWorld World;
+        List<List<Type>> requiredComponents;
 
         protected List<ECSEntity> Entities
         {
             get
             {
                 IEnumerable<ECSEntity> result = from id in registeredEntityIds
-                                             where World.EntityExists(id)
-                                             select World.GetEntityById(id);
+                                                where World.EntityExists(id)
+                                                select World.GetEntityById(id);
                 return result.ToList();
             }
         }
@@ -24,12 +25,13 @@ namespace BattleNumbers.ECS
         protected ECSSystem()
         {
             registeredEntityIds = new HashSet<int>();
-            requiredComponents = new List<Type>();
+            requiredComponents = new List<List<Type>>();
         }
 
         public void UpdateEntityRegistration(ECSEntity entity)
         {
             bool matches = Matches(entity);
+
             if (registeredEntityIds.Contains(entity.Id))
             {
                 if (!matches)
@@ -45,32 +47,44 @@ namespace BattleNumbers.ECS
                 }
             }
         }
-
         private bool Matches(ECSEntity entity)
         {
-            foreach (Type required in requiredComponents)
+            bool matches = true;
+
+            foreach (List<Type> combination in requiredComponents)
             {
-                if (!entity.HasComponent(required))
-                    return false;
+                matches = true;
+                foreach (Type requiredType in combination)
+                {
+                    if (!entity.HasComponent(requiredType))
+                    {
+                        matches = false;
+                        break;
+                    }
+                }
+                if (matches)
+                {
+                    return true;
+                }
             }
-            return true;
+            return matches;
         }
 
-        protected void AddRequiredComponent<T>() where T : ECSComponent
+        protected void AddRequiredComponents(List<Type> componentList)
         {
-            requiredComponents.Add(typeof(T));
+            requiredComponents.Add(componentList);
         }
 
-        public virtual void UpdateAll(float deltaTime)
+        public virtual void UpdateAll(GameTime gametime)
         {
             foreach (ECSEntity entity in Entities)
             {
                 UpdateEntityRegistration(entity);
-                Update(entity, deltaTime);
+                Update(entity, gametime);
             }
         }
 
-        protected abstract void Update(ECSEntity entity, float deltaTime);
+        protected abstract void Update(ECSEntity entity, GameTime gametime);
 
         public virtual void DeleteEntity(int id)
         {

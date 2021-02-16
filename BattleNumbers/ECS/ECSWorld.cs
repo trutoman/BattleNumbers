@@ -28,6 +28,14 @@ namespace BattleNumbers.ECS
             return entity;
         }
 
+        public ECSEntity AddAndGetEntity(ECSArchetype archetype, params object[] args)
+        {
+            ECSEntity entity = new ECSEntity(currentId++);
+            archetype.CreateEntity(entity, args);            
+            entities[entity.Id] = entity;
+            return entity;
+        }
+
         public void DeleteEntity(int id)
         {
             toDelete.Add(id);
@@ -54,11 +62,11 @@ namespace BattleNumbers.ECS
             return (T)systems[typeof(T)];
         }
 
-        public void Update(float deltaTime)
+        public void Update(GameTime gameTime)
         {
             foreach (ECSSystem system in systems.Values)
             {
-                system.UpdateAll(deltaTime);
+                system.UpdateAll(gameTime);
             }
             Flush();
         }
@@ -103,15 +111,15 @@ namespace BattleNumbers.ECS
             }
         }
 
-        public void AddComponentToEntity(ECSEntity entity, ECSComponent component)
+        public void AddComponentToEntity(ECSEntity entity, IECSComponent component)
         {
-            entity.AddComponent(component);
+            entity.AttachComponent(component);
             UpdateEntityRegistration(entity);
         }
 
-        public void RemoveComponentFromEntity<T>(ECSEntity entity) where T : ECSComponent
+        public void RemoveComponentFromEntity<T>(ECSEntity entity) where T : IECSComponent
         {
-            entity.RemoveComponent<T>();
+            entity.DettachComponent<T>();
             UpdateEntityRegistration(entity);
         }
     }

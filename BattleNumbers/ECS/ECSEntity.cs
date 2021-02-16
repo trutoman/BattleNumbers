@@ -6,25 +6,28 @@ namespace BattleNumbers.ECS
     public class ECSEntity
     {
         public int Id { get; private set; }
-        private Dictionary<Type, ECSComponent> components;
+        public string Name { get; set; }
+        private Dictionary<Type, IECSComponent> components;
 
         public ECSEntity(int id)
         {
             Id = id;
-            components = new Dictionary<Type, ECSComponent>();
+            components = new Dictionary<Type, IECSComponent>();
         }
 
-        internal void AddComponent(ECSComponent component)
+        public void SetName(string name) => Name = name;
+
+        internal void AttachComponent(IECSComponent component)
         {
             components[component.GetType()] = component;
         }
 
-        internal void RemoveComponent<T>() where T : ECSComponent
+        internal void DettachComponent<T>() where T : IECSComponent
         {
             components.Remove(typeof(T));
         }
 
-        public T GetComponent<T>() where T : ECSComponent
+        public T GetComponent<T>() where T : IECSComponent
         {
             return (T)components[typeof(T)];
         }
@@ -34,7 +37,7 @@ namespace BattleNumbers.ECS
             return components.ContainsKey(componentType);
         }
 
-        public bool HasComponent<T>() where T : ECSComponent
+        public bool HasComponent<T>() where T : IECSComponent
         {
             return components.ContainsKey(typeof(T));
         }

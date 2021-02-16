@@ -55,23 +55,21 @@ namespace BattleNumbers.Scene
         {
             GameContent gameContent = new GameContent(this.myGame.Content);
 
-            this.world = new ECSWorld(this.myGame);
+            world = new ECSWorld(this.myGame);                                               
+            
+            ECSEntity entity1 = world.AddAndGetEntity(new TokenArchetype());
+            entity1.GetComponent<RendererComponent>().MainTexture = gameContent.background;
 
-            ECSEntity entity1 = world.AddAndGetEntity();
-            entity1.AddComponent(new PositionComponent(0,0));
-            entity1.AddComponent(new RendererComponent(gameContent.background));
-
-            ECSEntity entity2 = world.AddAndGetEntity();
-            entity2.AddComponent(new PositionComponent(100, 200));
-            entity2.AddComponent(new SpriteComponent(gameContent.daiManjiSheet, gameContent.daiManjiData));
+            ECSEntity entity2 = world.AddAndGetEntity(new SpriteArchetype());
+            entity2.GetComponent<SpriteComponent>().Data = gameContent.daiManjiData;
+            entity2.GetComponent<SpriteComponent>().MainTexture = gameContent.daiManjiSheet;
+            entity2.GetComponent<SpriteComponent>().Play(entity2.GetComponent<SpriteComponent>().Data.InitSequence);
 
             ECSSystem renderedSystem = new RendererSystem(world);
+            renderedSystem.UpdateEntityRegistration(entity1);
+            renderedSystem.UpdateEntityRegistration(entity2);
 
             world.AddSystem(renderedSystem);
-
-            world.GetSystem<RendererSystem>().UpdateEntityRegistration(entity1);
-            world.GetSystem<RendererSystem>().UpdateEntityRegistration(entity2);
-
         }
 
         public void UnloadContent()
@@ -90,7 +88,7 @@ namespace BattleNumbers.Scene
             {
                 if (!this.isPaused)
                 {
-                    world.Update(gameTime.ElapsedGameTime.Milliseconds);
+                    world.Update(gameTime);
                 }
             }
         }

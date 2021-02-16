@@ -1,6 +1,6 @@
 ﻿namespace BattleNumbers.ECS
 {
-    public abstract class ECSComponent
+    public interface IECSComponent
     {
 
     }

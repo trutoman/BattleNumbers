@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace BattleNumbers.ECSComponents
 {
-    public class RendererComponent : ECSComponent
+    public class RendererComponent : IECSComponent
     {
         public Texture2D MainTexture { get; set; }
         public bool IsVisible { get; set; }
@@ -13,9 +13,8 @@ namespace BattleNumbers.ECSComponents
         public float Depth { get; set; }
         public float Alpha { get; set; }
 
-        public RendererComponent(Texture2D texture)
-        {
-            MainTexture = texture;
+        public RendererComponent()
+        {            
             IsVisible = true;
             Color = Color.White;
             Effects = SpriteEffects.None;

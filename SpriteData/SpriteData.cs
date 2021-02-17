@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace SpriteData
 {
@@ -126,6 +127,28 @@ namespace SpriteData
             this.FileName = string.Empty;
             this.Sequences = new Sequences();
         }
+
+        public Dictionary<string, Rectangle> GetRegions(string sequenceName)
+        {
+            int frameIndex = 0;
+            Dictionary<string, Rectangle> regions = new Dictionary<string, Rectangle>();
+
+            foreach (Sequence sequence in this.Sequences.SequenceList)
+            {
+                if (sequence.Name.ToLower() == sequenceName.ToLower())
+                {
+                    foreach (Frame frame in sequence.Frames)
+                    {
+                        Rectangle rect = new Rectangle(frame.Rect.X, frame.Rect.Y, frame.Rect.Width, frame.Rect.Height);
+                        regions.Add(frameIndex.ToString(), rect);
+                        frameIndex++;
+                    }
+                }
+            }
+
+            return regions; 
+        }
+
         public override string ToString()
         {
             string returnValue = $"( {this.FileName}, {this.Sequences.ToString()} )";

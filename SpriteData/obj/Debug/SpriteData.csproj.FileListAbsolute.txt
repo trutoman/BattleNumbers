@@ -4,3 +4,6 @@ C:\GIT\BattleNumbers\SpriteData\obj\Debug\SpriteData.csproj.CoreCompileInputs.ca
 C:\GIT\BattleNumbers\SpriteData\obj\Debug\SpriteData.dll
 C:\GIT\BattleNumbers\SpriteData\obj\Debug\SpriteData.pdb
 C:\GIT\BattleNumbers\SpriteData\obj\Debug\SpriteData.csprojAssemblyReference.cache
+C:\GIT\BattleNumbers\SpriteData\bin\Debug\MonoGame.Framework.dll
+C:\GIT\BattleNumbers\SpriteData\bin\Debug\MonoGame.Framework.xml
+C:\GIT\BattleNumbers\SpriteData\obj\Debug\SpriteData.csproj.CopyComplete

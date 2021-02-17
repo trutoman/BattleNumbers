@@ -1,5 +1,6 @@
 ﻿using BattleNumbers.ECS;
 using BattleNumbers.ECSComponents;
+using BattleNumbers.ECSComponents.Sprite;
 using BattleNumbers.ECSSystems;
 using BattleNumbers.Scenes;
 using Microsoft.Xna.Framework;
@@ -57,13 +58,8 @@ namespace BattleNumbers.Scene
 
             world = new ECSWorld(this.myGame);                                               
             
-            ECSEntity entity1 = world.AddAndGetEntity(new TokenArchetype());
-            entity1.GetComponent<RendererComponent>().MainTexture = gameContent.background;
-
-            ECSEntity entity2 = world.AddAndGetEntity(new SpriteArchetype());
-            entity2.GetComponent<SpriteComponent>().Data = gameContent.daiManjiData;
-            entity2.GetComponent<SpriteComponent>().MainTexture = gameContent.daiManjiSheet;
-            entity2.GetComponent<SpriteComponent>().Play(entity2.GetComponent<SpriteComponent>().Data.InitSequence);
+            ECSEntity entity1 = world.AddAndGetEntity(new TokenArchetype(), gameContent.background);            
+            ECSEntity entity2 = world.AddAndGetEntity(new AnimatedSpriteArchetype(), gameContent.daiManjiSheet, gameContent.daiManjiData);
 
             ECSSystem renderedSystem = new RendererSystem(world);
             renderedSystem.UpdateEntityRegistration(entity1);

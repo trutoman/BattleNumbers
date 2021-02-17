@@ -1,21 +1,24 @@
 ﻿using BattleNumbers.ECS;
+using BattleNumbers.ECSComponents.Sprite;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpriteData;
 
 namespace BattleNumbers.ECSComponents
 {
-    public class RendererComponent : IECSComponent
+    public class SpriteComponent : IECSComponent
     {
-        public Texture2D MainTexture { get; set; }
+        public TextureRegion2D TextureRegion { get; protected set; }
+
         public bool IsVisible { get; set; }
         public Color Color { get; set; }
         public SpriteEffects Effects { get; set; }
         public float Depth { get; set; }
         public float Alpha { get; set; }
 
-        public RendererComponent(Texture2D texture)
+        public SpriteComponent(TextureRegion2D textureRegion)
         {
-            MainTexture = texture;
+            TextureRegion = textureRegion;
             IsVisible = true;
             Color = Color.White;
             Effects = SpriteEffects.None;

@@ -81,21 +81,21 @@ namespace BattleNumbers
             this.Visible = true;
             this.currentIndex = 0;
             this.isPaused = false;
-            this.currentSequence = GetSequence(this.Data.InitSequence);            
-            this.currentFrame = this.currentSequence.Frames[this.currentIndex];
+            //this.currentSequence = GetSequence(this.Data.InitSequence);            
+            //this.currentFrame = this.currentSequence.Frames[this.currentIndex];
         }
 
-        private Sequence GetSequence(string sequenceName)
-        {
-            foreach (Sequence currentSeq in this.Data.Sequences.SequenceList)
-            {
-                if (currentSeq.Name == sequenceName)
-                {
-                    return currentSeq;
-                }
-            }
-            return new Sequence();
-        }
+        //private Sequence GetSequence(string sequenceName)
+        //{
+        //    foreach (Sequence currentSeq in this.Data.Sequences.SequenceList)
+        //    {
+        //        if (currentSeq.Name == sequenceName)
+        //        {
+        //            return currentSeq;
+        //        }
+        //    }
+        //    return new Sequence();
+        //}
 
         public void Pause(bool value)
         {

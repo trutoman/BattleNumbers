@@ -19,7 +19,7 @@ namespace BattleNumbers.ECSComponents.Sprite
         {
             Texture2D texture = (Texture2D)args[0];
             SpriteData.SpriteData data = (SpriteData.SpriteData)args[1];
-            SpriteSheet spriteSheet = new SpriteSheet(data.FileName, texture, data.GetRegions("spinning"));
+            SpriteSheet spriteSheet = new SpriteSheet(data, texture);
             entity.AttachComponent(new Transform2DComponent());            
             entity.AttachComponent(new AnimatedSpriteComponent(spriteSheet));
             return entity;

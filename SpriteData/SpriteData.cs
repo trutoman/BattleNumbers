@@ -29,15 +29,18 @@ namespace SpriteData
     [Serializable()]
     public class Frame
     {
+        public string Name;
+
         public FrameRect Rect;
 
         public Frame()
         {
+            this.Name = string.Empty;
             this.Rect = new FrameRect();
         }
         public override string ToString()
         {
-            string returnValue = $"( {this.Rect.ToString()} )";
+            string returnValue = $"( {this.Name} - {this.Rect.ToString()} )";
             return returnValue;
         }
     }
@@ -45,16 +48,47 @@ namespace SpriteData
     [Serializable()]
     public class Sequence
     {
-        private string _Name;
-        public string Name
+        public string SequenceName;
+
+        public int FromFrame;
+
+        public int ToFrame;
+
+        private bool _IsLooping;
+        public bool IsLooping
         {
             get; set;
         }
 
-        private const int defaultFramesPerSecond = 24;
+        private bool _IsReversed;
+        public bool IsReversed
+        {
+            get; set;
+        }
 
-        private int _FramesPerSecond;
-        public int FramesPerSecond
+        private float _FrameDuration;
+        public float FrameDuration
+        {
+            get; set;
+        }
+
+        private string _SpriteEffect;
+        public string SpriteEffect
+        {
+            get; set;
+        }
+        public override string ToString()
+        {
+            string returnValue = $"( {this.SequenceName},(from: {this.FromFrame}, to: {this.ToFrame}), isLooping: {this.IsLooping}, IsReversed: {this.IsReversed} )";
+            return returnValue;
+        }
+    }
+
+    [Serializable()]
+    public class SpriteData
+    {
+        private string _SpriteSheetName;
+        public string SpriteSheetName
         {
             get; set;
         }
@@ -65,93 +99,37 @@ namespace SpriteData
             get; set;
         }
 
-        public Sequence()
-        {
-            this.Name = string.Empty;
-            this.FramesPerSecond = Sequence.defaultFramesPerSecond;
-            this.Frames = new List<Frame>();
-        }
-        public override string ToString()
-        {
-            string returnValue = $"( {this.Name}, {this.Frames.ToString()} )";
-            return returnValue;
-        }
-    }
-
-    [Serializable()]
-    public class Sequences
-    {
-        private List<Sequence> _SequenceList;
-        public List<Sequence> SequenceList
+        private List<Sequence> _Sequences;
+        public List<Sequence> Sequences
         {
             get; set;
         }
 
-        public Sequences()
-        {
-            this.SequenceList = new List<Sequence>
-            {
-                new Sequence()
-            };
-        }
-
-        public override string ToString()
-        {
-            return this.SequenceList.ToString();
-        }
-    }
-
-    [Serializable()]
-    public class SpriteData
-    {
-        private string _FileName;
-        public string FileName
-        {
-            get; set;
-        }
-
-        private string _InitSequence;
-        public string InitSequence
-        {
-            get; set;
-        }
-
-        private Sequences _Sequences;
-        public Sequences Sequences
-        {
-            get; set;
-        }
-
-        public SpriteData()
-        {
-            this.FileName = string.Empty;
-            this.Sequences = new Sequences();
-        }
-
-        public Dictionary<string, Rectangle> GetRegions(string sequenceName)
+        public Dictionary<string, Rectangle> GetRegions()
         {
             int frameIndex = 0;
             Dictionary<string, Rectangle> regions = new Dictionary<string, Rectangle>();
 
-            foreach (Sequence sequence in this.Sequences.SequenceList)
+            foreach (Frame frame in this.Frames)
             {
-                if (sequence.Name.ToLower() == sequenceName.ToLower())
-                {
-                    foreach (Frame frame in sequence.Frames)
-                    {
-                        Rectangle rect = new Rectangle(frame.Rect.X, frame.Rect.Y, frame.Rect.Width, frame.Rect.Height);
-                        regions.Add(frameIndex.ToString(), rect);
-                        frameIndex++;
-                    }
-                }
+                Rectangle rect = new Rectangle(frame.Rect.X, frame.Rect.Y, frame.Rect.Width, frame.Rect.Height);
+                regions.Add(this.SpriteSheetName + "_" + frameIndex.ToString(), rect);
+                frameIndex++;
             }
 
-            return regions; 
+            return regions;
+        }
+
+        public SpriteData()
+        {
+            this.SpriteSheetName = string.Empty;
+            this.Frames = new List<Frame>();
+            this.Sequences = new List<Sequence>();
         }
 
         public override string ToString()
         {
-            string returnValue = $"( {this.FileName}, {this.Sequences.ToString()} )";
+            string returnValue = $"( {this.SpriteSheetName}, {this.Frames.ToString()}, {this.Sequences.ToString()} )";
             return returnValue;
         }
     }

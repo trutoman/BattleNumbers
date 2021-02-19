@@ -17,23 +17,28 @@ namespace BattleNumbers.ECSComponents.Sprite
 
         public Dictionary<string, SpriteSheetAnimationCycle> Cycles { get; }
 
-        public SpriteSheet(string name, Texture2D texture)
+        public SpriteSheet(SpriteData.SpriteData data, Texture2D texture)
         {
-            Name = name;
+            Name = data.SpriteSheetName;
             Texture = texture;
 
             _regionsByName = new Dictionary<string, TextureRegion2D>();
             _regionsByIndex = new List<TextureRegion2D>();
-
             Cycles = new Dictionary<string, SpriteSheetAnimationCycle>();
-        }
 
-        public SpriteSheet(string name, Texture2D texture, Dictionary<string, Rectangle> regions)
-           : this(name, texture)
-        {
-            foreach (var region in regions)
+            Dictionary<string, Rectangle> currentDict = data.GetRegions();
+            foreach (var region in currentDict)
             {
                 CreateRegion(region.Key, region.Value.X, region.Value.Y, region.Value.Width, region.Value.Height);
+            }
+
+            foreach (var sequence in data.Sequences)
+            {
+                SpriteSheetAnimationCycle cycle = new SpriteSheetAnimationCycle(sequence.FromFrame, sequence.ToFrame);
+                cycle.FrameDuration = sequence.FrameDuration;
+                cycle.IsLooping = sequence.IsLooping;
+                cycle.IsReversed = sequence.IsReversed;
+                this.Cycles.Add(sequence.SequenceName, cycle);
             }
         }
 

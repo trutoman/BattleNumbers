@@ -1,6 +1,7 @@
 ﻿using BattleNumbers.ECS;
 using BattleNumbers.ECSComponents;
 using BattleNumbers.ECSComponents.Sprite;
+using BattleNumbers.ECSEntities;
 using BattleNumbers.ECSSystems;
 using BattleNumbers.Scenes;
 using Microsoft.Xna.Framework;
@@ -45,29 +46,28 @@ namespace BattleNumbers.Scene
             get { return _isPaused; }
             set { _isPaused = value; }
         }
-
         public GameBaseScene(BattleNumbers game)
         {
             this.myGame = game;
             this.Enabled = true;
             this.isPaused = false;
         }
-
         public void LoadContent()
         {
             GameContent gameContent = new GameContent(this.myGame.Content);
 
             world = new ECSWorld(this.myGame);
+
             ECSSystem renderedSystem = new RendererSystem(world);
             world.AddSystem(renderedSystem);
 
-            ECSEntity entity1 = world.AddAndGetEntity(new TokenArchetype(), gameContent.background);            
-            ECSEntity entity2 = world.AddAndGetEntity(new AnimatedSpriteArchetype(), gameContent.daiManjiSheet, gameContent.daiManjiData);
-            
-            renderedSystem.UpdateEntityRegistration(entity1);
-            renderedSystem.UpdateEntityRegistration(entity2);            
+            EntityFactory entityFactory = new EntityFactory();
+            entityFactory.LoadContent(world, gameContent);
 
-            entity2.GetComponent<AnimatedSpriteComponent>().Play("spinning");
+            ECSEntity entity = entityFactory.CreateRenderEntity(new Rectangle(0, 0, 1280, 720), gameContent.background);
+            ECSEntity entity2 = entityFactory.CreateAnimatedSpriteEntity(new Rectangle(0, 0, 1280, 720), gameContent.daiManjiSheet, gameContent.daiManjiData);
+            renderedSystem.UpdateEntityRegistration(entity);
+            renderedSystem.UpdateEntityRegistration(entity2);
         }
 
         public void UnloadContent()

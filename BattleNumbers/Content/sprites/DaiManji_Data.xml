@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <XnaContent xmlns:SpriteData="SpriteData">
   <Asset Type="SpriteData:SpriteData">
-    
-	<SpriteSheetName>DaiManji</SpriteSheetName>    
-    
-	<Frames>
+
+    <SpriteSheetName>DaiManji</SpriteSheetName>
+
+    <Frames>
       <!-- ROW 1 -->
       <Item>
         <Name></Name>
@@ -286,58 +286,57 @@
           <Height>116</Height>
         </Rect>
       </Item>
-    
-    <!-- ROW 2 x 3-->
-    <Item>
-      <Name></Name>
-      <Rect>
-        <X>2</X>
-        <Y>1315</Y>
-        <Width>163</Width>
-        <Height>116</Height>
-      </Rect>
-    </Item>
-    <Item>
-      <Name></Name>
-      <Rect>
-        <X>166</X>
-        <Y>1315</Y>
-        <Width>163</Width>
-        <Height>116</Height>
-      </Rect>
-    </Item>
-    <Item>
-      <Name></Name>
-      <Rect>
-        <X>330</X>
-        <Y>1315</Y>
-        <Width>163</Width>
-        <Height>116</Height>
-      </Rect>
-    </Item>    
+
+      <!-- ROW 2 x 3-->
+      <Item>
+        <Name></Name>
+        <Rect>
+          <X>2</X>
+          <Y>1315</Y>
+          <Width>163</Width>
+          <Height>116</Height>
+        </Rect>
+      </Item>
+      <Item>
+        <Name></Name>
+        <Rect>
+          <X>166</X>
+          <Y>1315</Y>
+          <Width>163</Width>
+          <Height>116</Height>
+        </Rect>
+      </Item>
+      <Item>
+        <Name></Name>
+        <Rect>
+          <X>330</X>
+          <Y>1315</Y>
+          <Width>163</Width>
+          <Height>116</Height>
+        </Rect>
+      </Item>
     </Frames>
 
     <Sequences>
       <Item>
-	  <IsLooping>true</IsLooping>
+        <IsLooping>true</IsLooping>
+        <IsReversed>false</IsReversed>
+        <FrameDuration>0.03</FrameDuration>
+        <SpriteEffect>None</SpriteEffect>
         <SequenceName>spinning</SequenceName>
         <FromFrame>0</FromFrame>
         <ToFrame>23</ToFrame>
-        
-        <IsReversed>false</IsReversed>
-        <FrameDuration>24</FrameDuration>
-        <SpriteEffect>None</SpriteEffect>
       </Item>
       <Item>
-        <SequenceName>Opening</SequenceName>
-        <FromFrame>24</FromFrame>
-        <ToFrame>26</ToFrame>
         <IsLooping>true</IsLooping>
         <IsReversed>false</IsReversed>
-        <FrameDuration>24</FrameDuration>
+        <FrameDuration>0.2</FrameDuration>
         <SpriteEffect>None</SpriteEffect>
+        <SequenceName>Opening</SequenceName>
+        <FromFrame>24</FromFrame>
+        <ToFrame>26</ToFrame>        
       </Item>
     </Sequences>
-    
+
   </Asset>
 </XnaContent>

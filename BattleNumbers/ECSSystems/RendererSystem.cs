@@ -18,6 +18,7 @@ namespace BattleNumbers.ECSSystems
             this.Batch = new SpriteBatch(this.World.game.GraphicsDevice);
             AddRequiredComponents(new List<Type>() { typeof(Transform2DComponent), typeof(RendererComponent) });
             AddRequiredComponents(new List<Type>() { typeof(Transform2DComponent), typeof(SpriteComponent) });
+            AddRequiredComponents(new List<Type>() { typeof(Transform2DComponent), typeof(AnimatedSpriteComponent) });
         }
 
         // This method Update individual entities registered
@@ -53,13 +54,13 @@ namespace BattleNumbers.ECSSystems
         private void DrawAnimatedSpriteComponent(ECSEntity entity)
         {
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
-            SpriteComponent sprite = entity.GetComponent<AnimatedSpriteComponent>();
+            AnimatedSpriteComponent sprite = entity.GetComponent<AnimatedSpriteComponent>();
 
             Rectangle sourceRectangle = new Rectangle(
-                                (int)object2D.Position.X,
-                                (int)object2D.Position.Y,
-                                sprite.TextureRegion.Width,
-                                sprite.TextureRegion.Height);
+                        sprite.CurrentAnimation.CurrentFrame.X,
+                        sprite.CurrentAnimation.CurrentFrame.Y,
+                        sprite.CurrentAnimation.CurrentFrame.Width,
+                        sprite.CurrentAnimation.CurrentFrame.Height);
 
             this.Batch.Begin();
 
@@ -83,10 +84,10 @@ namespace BattleNumbers.ECSSystems
             SpriteComponent sprite = entity.GetComponent<SpriteComponent>();
 
             Rectangle sourceRectangle = new Rectangle(
-                                (int)object2D.Position.X,
-                                (int)object2D.Position.Y,
-                                sprite.TextureRegion.Width,
-                                sprite.TextureRegion.Height);
+                        (int)object2D.Position.X,
+                        (int)object2D.Position.Y,
+                        sprite.TextureRegion.Width,
+                        sprite.TextureRegion.Height);
 
             this.Batch.Begin();
 
@@ -110,8 +111,8 @@ namespace BattleNumbers.ECSSystems
             RendererComponent renderer = entity.GetComponent<RendererComponent>();
 
             Rectangle sourceRectangle = new Rectangle(
-                                (int)object2D.Position.X,
-                                (int)object2D.Position.Y,
+                                0,
+                                0,
                                 renderer.MainTexture.Width,
                                 renderer.MainTexture.Height);
 

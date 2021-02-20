@@ -21,14 +21,14 @@ namespace BattleNumbers.ECS
             this.toDelete = new List<int>();
         }
 
-        public ECSEntity AddAndGetEntity()
+        public ECSEntity CreateEntity()
         {
             ECSEntity entity = new ECSEntity(currentId++);
             entities[entity.Id] = entity;
             return entity;
         }
 
-        public ECSEntity AddAndGetEntity(ECSArchetype archetype, params object[] args)
+        public ECSEntity CreateEntity(ECSArchetype archetype, params object[] args)
         {
             ECSEntity entity = new ECSEntity(currentId++);
             archetype.CreateEntity(entity, args);            

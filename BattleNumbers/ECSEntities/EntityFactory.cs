@@ -12,7 +12,7 @@ namespace BattleNumbers.ECSEntities
     public class EntityFactory
     {
         protected ECSWorld World;
-        protected GameContent Content;        
+        protected GameContent Content;
 
         public void LoadContent(ECSWorld world, GameContent gameContent)
         {
@@ -39,6 +39,8 @@ namespace BattleNumbers.ECSEntities
 
             //transform.Bounds = bounds;
 
+            transform.Position = new Vector2(40, 140);
+
             animation.Play("spinning");
 
             return entity;
@@ -51,11 +53,50 @@ namespace BattleNumbers.ECSEntities
 
             TokenTypeComponent token = entity.GetComponent<TokenTypeComponent>();
             Transform2DComponent transform = entity.GetComponent<Transform2DComponent>();
+            Interaction2DComponent interaction = entity.GetComponent<Interaction2DComponent>();
             AnimatedSpriteComponent animation = entity.GetComponent<AnimatedSpriteComponent>();
 
+            animation.Play("spinning");
+
             transform.Bounds = bounds;
+            
+            interaction.Press += OnTokenPressed;
+            interaction.Release += OnTokenReleased;
+            interaction.DragOver += OnTokenDragOver;
 
             return entity;
         }
+
+        private void OnTokenPressed(object sender, MouseEventArgs e)
+        {
+            int id = e.EntityId;
+
+            ECSEntity entity = this.World.GetEntityById(id);
+            Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
+
+            object2D.Scale = new Vector2(1.15f, 1.15f);
+
+        }
+
+        private void OnTokenReleased(object sender, MouseEventArgs e)
+        {
+            int id = e.EntityId;
+
+            ECSEntity entity = this.World.GetEntityById(id);
+            Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
+
+            object2D.Scale = new Vector2(1f, 1f);
+
+        }
+        private void OnTokenDragOver(object sender, DragEventArgs e)
+        {
+            int id = e.EntityId;
+
+            ECSEntity entity = this.World.GetEntityById(id);
+            Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
+
+            object2D.Position = new Vector2(e.MouseState.X, e.MouseState.Y);
+        }
+
     }
 }

@@ -56,18 +56,26 @@ namespace BattleNumbers.Scene
         {
             GameContent gameContent = new GameContent(this.myGame.Content);
 
+            // Create world with systems
             world = new ECSWorld(this.myGame);
-
             ECSSystem renderedSystem = new RendererSystem(world);
+            ECSSystem interactionSystem = new InteractionSystem(world);
             world.AddSystem(renderedSystem);
+            world.AddSystem(interactionSystem);
 
+            // Create a entity factory
             EntityFactory entityFactory = new EntityFactory();
             entityFactory.LoadContent(world, gameContent);
 
+            // Create and register entities
             ECSEntity entity = entityFactory.CreateRenderEntity(new Rectangle(0, 0, 1280, 720), gameContent.background);
             ECSEntity entity2 = entityFactory.CreateAnimatedSpriteEntity(new Rectangle(0, 0, 1280, 720), gameContent.daiManjiSheet, gameContent.daiManjiData);
+            ECSEntity entity3 = entityFactory.CreateTokenEntity(new Rectangle(0, 0, 50, 100), gameContent.daiManjiSheet, gameContent.daiManjiData);
+
             renderedSystem.UpdateEntityRegistration(entity);
             renderedSystem.UpdateEntityRegistration(entity2);
+            renderedSystem.UpdateEntityRegistration(entity3);
+            interactionSystem.UpdateEntityRegistration(entity3);
         }
 
         public void UnloadContent()

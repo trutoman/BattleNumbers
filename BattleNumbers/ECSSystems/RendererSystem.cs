@@ -26,12 +26,33 @@ namespace BattleNumbers.ECSSystems
         {
             if (entity.HasComponent<AnimatedSpriteComponent>())
             {
-                entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.Update(gametime);
+                AnimatedSpriteComponent animatedSprite = entity.GetComponent<AnimatedSpriteComponent>();
+
+                if (animatedSprite.CurrentAnimation != null && !animatedSprite.CurrentAnimation.IsComplete)
+                {
+                    animatedSprite.CurrentAnimation.Update(gametime);
+                    animatedSprite.SetTextureRegion(animatedSprite.CurrentAnimation.CurrentFrame);
+                }
+                // Sprite bounds ius variable so everytime we updated sprite we update also transform2d components bounds
+                // transform2D component bounds is the rectangle we will use to draw sprite at Draw method.
+                Transform2DComponent Object2D = entity.GetComponent<Transform2DComponent>();
+                Object2D.Size = new Vector2(entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Width,
+                    entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Height);
+
+            }
+            else if (entity.HasComponent<SpriteComponent>())
+            {
+                // Sprite bounds ius variable so everytime we updated sprite we update also transform2d components bounds
+                // transform2D component bounds is the rectangle we will use to draw sprite at Draw method.
+                Transform2DComponent Object2D = entity.GetComponent<Transform2DComponent>();
+                Object2D.Size = new Vector2(entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Width,
+                    entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Height);
             }
         }
 
         public void Draw(GameTime gameTime)
         {
+            this.Batch.Begin();
             foreach (ECSEntity entity in this.Entities)
             {
 
@@ -50,32 +71,25 @@ namespace BattleNumbers.ECSSystems
                     DrawAnimatedSpriteComponent(entity);
                 }
             }
+            this.Batch.End();
         }
         private void DrawAnimatedSpriteComponent(ECSEntity entity)
         {
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
             AnimatedSpriteComponent sprite = entity.GetComponent<AnimatedSpriteComponent>();
 
-            Rectangle sourceRectangle = new Rectangle(
-                        sprite.CurrentAnimation.CurrentFrame.X,
-                        sprite.CurrentAnimation.CurrentFrame.Y,
-                        sprite.CurrentAnimation.CurrentFrame.Width,
-                        sprite.CurrentAnimation.CurrentFrame.Height);
-
-            this.Batch.Begin();
+            var region = sprite.TextureRegion;
 
             this.Batch.Draw(
-                sprite.TextureRegion.Texture,
+                region.Texture,
                 object2D.Position,
-                sourceRectangle,
+                region.Bounds,
                 sprite.Color,
                 object2D.Rotation,
                 origin: Vector2.Zero,
-                object2D.ScaleSize,
+                object2D.Scale,
                 sprite.Effects,
                 sprite.Depth);
-
-            this.Batch.End();
         }
 
         private void DrawSpriteComponent(ECSEntity entity)
@@ -83,26 +97,18 @@ namespace BattleNumbers.ECSSystems
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
             SpriteComponent sprite = entity.GetComponent<SpriteComponent>();
 
-            Rectangle sourceRectangle = new Rectangle(
-                        (int)object2D.Position.X,
-                        (int)object2D.Position.Y,
-                        sprite.TextureRegion.Width,
-                        sprite.TextureRegion.Height);
-
-            this.Batch.Begin();
+            var region = sprite.TextureRegion;
 
             this.Batch.Draw(
-                sprite.TextureRegion.Texture,
+                region.Texture,
                 object2D.Position,
-                sourceRectangle,
+                region.Bounds,
                 sprite.Color,
                 object2D.Rotation,
                 origin: Vector2.Zero,
                 object2D.ScaleSize,
                 sprite.Effects,
                 sprite.Depth);
-
-            this.Batch.End();
         }
 
         private void DrawRendererComponent(ECSEntity entity)
@@ -116,8 +122,6 @@ namespace BattleNumbers.ECSSystems
                                 renderer.MainTexture.Width,
                                 renderer.MainTexture.Height);
 
-            this.Batch.Begin();
-
             this.Batch.Draw(
                 renderer.MainTexture,
                 object2D.Position,
@@ -128,8 +132,6 @@ namespace BattleNumbers.ECSSystems
                 object2D.ScaleSize,
                 renderer.Effects,
                 renderer.Depth);
-
-            this.Batch.End();
         }
     }
 }

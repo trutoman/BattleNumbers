@@ -235,27 +235,27 @@
         <Name></Name>
         <Rect>
           <X>2</X>
-          <Y>1060</Y>
-          <Width>163</Width>
-          <Height>116</Height>
+          <Y>1101</Y>
+          <Width>156</Width>
+          <Height>121</Height>
         </Rect>
       </Item>
       <Item>
         <Name></Name>
         <Rect>
-          <X>166</X>
-          <Y>1060</Y>
-          <Width>163</Width>
-          <Height>116</Height>
+          <X>159</X>
+          <Y>1101</Y>
+          <Width>156</Width>
+          <Height>121</Height>
         </Rect>
       </Item>
       <Item>
         <Name></Name>
         <Rect>
-          <X>330</X>
-          <Y>1060</Y>
-          <Width>163</Width>
-          <Height>116</Height>
+          <X>316</X>
+          <Y>1101</Y>
+          <Width>156</Width>
+          <Height>121</Height>
         </Rect>
       </Item>
       <!-- ROW 2 x 2-->
@@ -263,27 +263,27 @@
         <Name></Name>
         <Rect>
           <X>2</X>
-          <Y>1200</Y>
-          <Width>163</Width>
-          <Height>116</Height>
+          <Y>1223</Y>
+          <Width>156</Width>
+          <Height>121</Height>
         </Rect>
       </Item>
       <Item>
         <Name></Name>
         <Rect>
-          <X>166</X>
-          <Y>1200</Y>
-          <Width>163</Width>
-          <Height>116</Height>
+          <X>159</X>
+          <Y>1223</Y>
+          <Width>156</Width>
+          <Height>121</Height>
         </Rect>
       </Item>
       <Item>
         <Name></Name>
         <Rect>
-          <X>330</X>
-          <Y>1200</Y>
-          <Width>163</Width>
-          <Height>116</Height>
+          <X>316</X>
+          <Y>1223</Y>
+          <Width>156</Width>
+          <Height>121</Height>
         </Rect>
       </Item>
 
@@ -292,29 +292,11 @@
         <Name></Name>
         <Rect>
           <X>2</X>
-          <Y>1315</Y>
-          <Width>163</Width>
-          <Height>116</Height>
+          <Y>1345</Y>
+          <Width>156</Width>
+          <Height>121</Height>
         </Rect>
-      </Item>
-      <Item>
-        <Name></Name>
-        <Rect>
-          <X>166</X>
-          <Y>1315</Y>
-          <Width>163</Width>
-          <Height>116</Height>
-        </Rect>
-      </Item>
-      <Item>
-        <Name></Name>
-        <Rect>
-          <X>330</X>
-          <Y>1315</Y>
-          <Width>163</Width>
-          <Height>116</Height>
-        </Rect>
-      </Item>
+      </Item>      
     </Frames>
 
     <Sequences>
@@ -330,11 +312,11 @@
       <Item>
         <IsLooping>true</IsLooping>
         <IsReversed>false</IsReversed>
-        <FrameDuration>0.2</FrameDuration>
+        <FrameDuration>0.1</FrameDuration>
         <SpriteEffect>None</SpriteEffect>
-        <SequenceName>Opening</SequenceName>
+        <SequenceName>opening</SequenceName>
         <FromFrame>24</FromFrame>
-        <ToFrame>26</ToFrame>        
+        <ToFrame>30</ToFrame>        
       </Item>
     </Sequences>
 

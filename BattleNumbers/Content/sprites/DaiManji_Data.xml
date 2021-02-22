@@ -320,5 +320,7 @@
       </Item>
     </Sequences>
 
+    <InitSequence>spinning</InitSequence>
+    
   </Asset>
 </XnaContent>

@@ -29,6 +29,7 @@ namespace BattleNumbers.ECSComponents
         public event EventHandler<MouseEventArgs> Press;
         public event EventHandler<MouseEventArgs> Release;
         public event EventHandler<MouseEventArgs> Click;
+        public event EventHandler<MouseEventArgs> Move;
 
         // Drag Events
         public event EventHandler<DragEventArgs> DragStart;
@@ -62,6 +63,11 @@ namespace BattleNumbers.ECSComponents
         {
             IsPressed = false;
             Click?.Invoke(this, e);
+        }
+
+        internal void OnMove(MouseEventArgs e)
+        {            
+            Move?.Invoke(this, e);
         }
 
         // Trigger Drag Events

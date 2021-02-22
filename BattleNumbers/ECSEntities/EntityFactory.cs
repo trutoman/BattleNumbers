@@ -56,15 +56,28 @@ namespace BattleNumbers.ECSEntities
             Interaction2DComponent interaction = entity.GetComponent<Interaction2DComponent>();
             AnimatedSpriteComponent animation = entity.GetComponent<AnimatedSpriteComponent>();
 
-            animation.Play("spinning");
+            animation.Play(sheetData.InitSequence);
 
             transform.Bounds = bounds;
             
             interaction.Press += OnTokenPressed;
             interaction.Release += OnTokenReleased;
             interaction.DragOver += OnTokenDragOver;
+            interaction.Move += OnTokenMove;
+
+
 
             return entity;
+        }
+
+        private void OnTokenMove(object sender, MouseEventArgs e)
+        {
+            int id = e.EntityId;
+
+            ECSEntity entity = this.World.GetEntityById(id);
+            Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
+
+            object2D.Position = new Vector2(e.MouseState.X, e.MouseState.Y);
         }
 
         private void OnTokenPressed(object sender, MouseEventArgs e)
@@ -75,7 +88,6 @@ namespace BattleNumbers.ECSEntities
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
 
             object2D.Scale = new Vector2(1.15f, 1.15f);
-
         }
 
         private void OnTokenReleased(object sender, MouseEventArgs e)
@@ -86,7 +98,6 @@ namespace BattleNumbers.ECSEntities
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
 
             object2D.Scale = new Vector2(1f, 1f);
-
         }
         private void OnTokenDragOver(object sender, DragEventArgs e)
         {

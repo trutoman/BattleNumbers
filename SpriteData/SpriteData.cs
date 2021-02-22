@@ -105,6 +105,12 @@ namespace SpriteData
             get; set;
         }
 
+        private string _InitSequence;
+        public string InitSequence
+        {
+            get; set;
+        }
+
         public Dictionary<string, Rectangle> GetRegions()
         {
             int frameIndex = 0;

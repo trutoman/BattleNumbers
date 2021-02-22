@@ -53,6 +53,7 @@ namespace BattleNumbers.ECSSystems
             bool onDragStart = CheckDragStart(transform, interaction);
             bool onDragOver = CheckDragOver(transform, interaction);
             bool onDrop = CheckDrop(transform, interaction);
+            bool onMove = CheckMove(transform, interaction);
 
             // Trigger Events
             if (onHover) interaction.OnHover(BuildMouseEvent(entity.Id));
@@ -63,6 +64,7 @@ namespace BattleNumbers.ECSSystems
             if (onDragStart) interaction.OnDragStart(BuildDragEvent(entity.Id));
             if (onDragOver) interaction.OnDragOver(BuildDragEvent(entity.Id));
             if (onDrop) interaction.OnDrop(BuildDragEvent(entity.Id));
+            if (onMove) interaction.OnMove(BuildMouseEvent(entity.Id));
         }
 
         // Mouse handlers
@@ -108,6 +110,15 @@ namespace BattleNumbers.ECSSystems
         private bool CheckClick(Transform2DComponent transform, Interaction2DComponent interaction)
         {
             if (interaction.IsPressed && IsEntityHovered(transform, current_mouseState) && IsMouseReleased(current_mouseState))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool CheckMove(Transform2DComponent transform, Interaction2DComponent interaction)
+        {
+            if (interaction.IsPressed && current_mouseState != prev_mouseState)
             {
                 return true;
             }

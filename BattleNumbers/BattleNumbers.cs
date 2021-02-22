@@ -8,10 +8,10 @@ namespace BattleNumbers
 {
     public class BattleNumbers : Game
     {
-        private GraphicsDeviceManager graphics;                
-        private SceneManager sceneManager;
+        public GraphicsDeviceManager graphics;                
+        public SceneManager SceneManager { get; set; }
 
-        public BattleNumbers()
+        public BattleNumbers() : base()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -20,21 +20,22 @@ namespace BattleNumbers
         protected override void Initialize()
         {
             this.graphics.PreferMultiSampling = false;
-            this.graphics.PreferredBackBufferWidth = 1280;
-            this.graphics.PreferredBackBufferHeight = 720;
+            this.graphics.PreferredBackBufferWidth = 1600;
+            this.graphics.PreferredBackBufferHeight = 900;
 
-            //this._graphics.IsFullScreen = true;            
+            //this.graphics.IsFullScreen = true;
+
             this.graphics.ApplyChanges();
             IsMouseVisible = true;
 
-            this.sceneManager = new SceneManager(this);
-            Components.Add(sceneManager);
+            this.SceneManager = new SceneManager(this, 1280, 720);
+            Components.Add(SceneManager);
             base.Initialize();
         }
 
         protected override void LoadContent()
         {                       
-            this.sceneManager.LoadScene(new GameBaseScene(this));
+            this.SceneManager.LoadScene(new GameBaseScene(this));
         }
 
         protected override void Update(GameTime gameTime)

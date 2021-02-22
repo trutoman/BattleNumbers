@@ -11,8 +11,8 @@ namespace BattleNumbers.ECSSystems
 {
     public class InteractionSystem : ECSSystem
     {
-        private MouseState current_mouseState;
-        private MouseState prev_mouseState;
+        private MouseState CurrentMouseState;
+        private MouseState PreviousMouseState;
 
         // Rozdelit na mouse interaction a keyboard interaction system
         public InteractionSystem(ECSWorld world)
@@ -22,12 +22,37 @@ namespace BattleNumbers.ECSSystems
 
         public void Begin()
         {
-            current_mouseState = Mouse.GetState();
+            // TODO: Android
+            //Gestures.Clear();
+            //while (TouchPanel.IsGestureAvailable)
+            //{
+            //    GestureSample g = TouchPanel.ReadGesture();
+            //    Vector2 p1 = Vector2.Transform(g.Position - ScreenManager.InputTranslate, ScreenManager.InputScale);
+            //    Vector2 p2 = Vector2.Transform(g.Position2 - ScreenManager.InputTranslate, ScreenManager.InputScale);
+            //    Vector2 p3 = Vector2.Transform(g.Delta - ScreenManager.InputTranslate, ScreenManager.InputScale);
+            //    Vector2 p4 = Vector2.Transform(g.Delta2 - ScreenManager.InputTranslate, ScreenManager.InputScale);
+            //    g = new GestureSample(g.GestureType, g.Timestamp, p1, p2, p3, p4);
+            //    Gestures.Add(g);
+            //}
+
+            CurrentMouseState = Mouse.GetState();
+            Vector2 _mousePosition = new Vector2(CurrentMouseState.X, CurrentMouseState.Y);
+            Vector2 p = _mousePosition - this.World.Game.SceneManager.InputTranslate;
+            p = Vector2.Transform(p, this.World.Game.SceneManager.InputScale);
+            CurrentMouseState = new MouseState(
+                (int)p.X, 
+                (int)p.Y, 
+                CurrentMouseState.ScrollWheelValue, 
+                CurrentMouseState.LeftButton, 
+                CurrentMouseState.MiddleButton, 
+                CurrentMouseState.RightButton, 
+                CurrentMouseState.XButton1, 
+                CurrentMouseState.XButton2);           
         }
 
         public void End()
         {
-            prev_mouseState = current_mouseState;
+            PreviousMouseState = CurrentMouseState;
         }
 
         protected override void Update(ECSEntity entity, GameTime gameTime)
@@ -71,7 +96,7 @@ namespace BattleNumbers.ECSSystems
 
         private bool CheckHover(Transform2DComponent transform, Interaction2DComponent interaction)
         {
-            if (!interaction.IsHovered && IsEntityHovered(transform, current_mouseState))
+            if (!interaction.IsHovered && IsEntityHovered(transform, CurrentMouseState))
             {
                 return true;
             }
@@ -81,7 +106,7 @@ namespace BattleNumbers.ECSSystems
 
         private bool CheckOver(Transform2DComponent transform, Interaction2DComponent interaction)
         {
-            if (interaction.IsHovered && !IsEntityHovered(transform, current_mouseState))
+            if (interaction.IsHovered && !IsEntityHovered(transform, CurrentMouseState))
             {
                 return true;
             }
@@ -91,7 +116,7 @@ namespace BattleNumbers.ECSSystems
 
         private bool CheckPress(Transform2DComponent transform, Interaction2DComponent interaction)
         {
-            if (!interaction.IsPressed && IsEntityPressed(transform, current_mouseState))
+            if (!interaction.IsPressed && IsEntityPressed(transform, CurrentMouseState))
             {
                 return true;
             }
@@ -100,7 +125,7 @@ namespace BattleNumbers.ECSSystems
 
         private bool CheckRelease(Transform2DComponent transform, Interaction2DComponent interaction)
         {
-            if (interaction.IsPressed && !IsEntityPressed(transform, current_mouseState))
+            if (interaction.IsPressed && !IsEntityPressed(transform, CurrentMouseState))
             {
                 return true;
             }
@@ -109,7 +134,7 @@ namespace BattleNumbers.ECSSystems
 
         private bool CheckClick(Transform2DComponent transform, Interaction2DComponent interaction)
         {
-            if (interaction.IsPressed && IsEntityHovered(transform, current_mouseState) && IsMouseReleased(current_mouseState))
+            if (interaction.IsPressed && IsEntityHovered(transform, CurrentMouseState) && IsMouseReleased(CurrentMouseState))
             {
                 return true;
             }
@@ -118,7 +143,7 @@ namespace BattleNumbers.ECSSystems
 
         private bool CheckMove(Transform2DComponent transform, Interaction2DComponent interaction)
         {
-            if (interaction.IsPressed && current_mouseState != prev_mouseState)
+            if (interaction.IsPressed && CurrentMouseState != PreviousMouseState)
             {
                 return true;
             }
@@ -129,8 +154,8 @@ namespace BattleNumbers.ECSSystems
 
         private bool CheckDragStart(Transform2DComponent transform, Interaction2DComponent interaction)
         {
-            if (!interaction.IsDraged && IsEntityPressed(transform, current_mouseState)
-                && IsMouseReleased(prev_mouseState))
+            if (!interaction.IsDraged && IsEntityPressed(transform, CurrentMouseState)
+                && IsMouseReleased(PreviousMouseState))
             {
                 return true;
             }
@@ -141,8 +166,8 @@ namespace BattleNumbers.ECSSystems
 
         public bool CheckDragOver(Transform2DComponent transform, Interaction2DComponent interacton)
         {
-            if (interacton.IsDraged && !IsEntityPressed(transform, current_mouseState) &&
-                IsMousePressed(current_mouseState))
+            if (interacton.IsDraged && !IsEntityPressed(transform, CurrentMouseState) &&
+                IsMousePressed(CurrentMouseState))
             {
                 return true;
             }
@@ -154,7 +179,7 @@ namespace BattleNumbers.ECSSystems
 
         private bool CheckDrop(Transform2DComponent transform, Interaction2DComponent interaction)
         {
-            if (interaction.IsDraged && IsMouseReleased(current_mouseState))
+            if (interaction.IsDraged && IsMouseReleased(CurrentMouseState))
             {
                 return true;
             }
@@ -167,7 +192,7 @@ namespace BattleNumbers.ECSSystems
             return new MouseEventArgs()
             {
                 EntityId = entityId,
-                MouseState = current_mouseState
+                MouseState = CurrentMouseState
             };
         }
 
@@ -176,7 +201,7 @@ namespace BattleNumbers.ECSSystems
             return new DragEventArgs()
             {
                 EntityId = entityId,
-                MouseState = current_mouseState
+                MouseState = CurrentMouseState
             };
         }
 

@@ -7,7 +7,7 @@ namespace BattleNumbers.ECS
 {
     public class ECSWorld
     {
-        public BattleNumbers game { get; set; }
+        public BattleNumbers Game { get; set; }
         private Dictionary<int, ECSEntity> entities;
         private Dictionary<Type, ECSSystem> systems;
         private List<int> toDelete;
@@ -15,7 +15,7 @@ namespace BattleNumbers.ECS
 
         public ECSWorld(BattleNumbers game)
         {
-            this.game = game;
+            this.Game = game;
             this.entities = new Dictionary<int, ECSEntity>();
             this.systems = new Dictionary<Type, ECSSystem>();
             this.toDelete = new List<int>();

@@ -15,7 +15,7 @@ namespace BattleNumbers.ECSSystems
         public RendererSystem(ECSWorld world)
         {
             this.BindWorld(world);
-            this.Batch = new SpriteBatch(this.World.game.GraphicsDevice);
+            this.Batch = new SpriteBatch(this.World.Game.GraphicsDevice);
             AddRequiredComponents(new List<Type>() { typeof(Transform2DComponent), typeof(RendererComponent) });
             AddRequiredComponents(new List<Type>() { typeof(Transform2DComponent), typeof(SpriteComponent) });
             AddRequiredComponents(new List<Type>() { typeof(Transform2DComponent), typeof(AnimatedSpriteComponent) });
@@ -52,7 +52,8 @@ namespace BattleNumbers.ECSSystems
 
         public void Draw(GameTime gameTime)
         {
-            this.Batch.Begin();
+            //this.Batch.Begin();
+            this.Batch.Begin(SpriteSortMode.Immediate, null, null, null, null, null,this.World.Game.SceneManager.Scale);
             foreach (ECSEntity entity in this.Entities)
             {
 

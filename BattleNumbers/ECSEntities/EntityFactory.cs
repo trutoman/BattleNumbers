@@ -41,7 +41,7 @@ namespace BattleNumbers.ECSEntities
 
             transform.Position = new Vector2(40, 140);
 
-            animation.Play("spinning");
+            animation.Play(sheetData.InitSequence);
 
             return entity;
         }
@@ -64,8 +64,6 @@ namespace BattleNumbers.ECSEntities
             interaction.Release += OnTokenReleased;
             interaction.DragOver += OnTokenDragOver;
             interaction.Move += OnTokenMove;
-
-
 
             return entity;
         }
@@ -108,6 +106,5 @@ namespace BattleNumbers.ECSEntities
 
             object2D.Position = new Vector2(e.MouseState.X, e.MouseState.Y);
         }
-
     }
 }

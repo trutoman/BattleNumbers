@@ -33,7 +33,7 @@ namespace BattleNumbers.ECSSystems
                     animatedSprite.CurrentAnimation.Update(gametime);
                     animatedSprite.SetTextureRegion(animatedSprite.CurrentAnimation.CurrentFrame);
                 }
-                // Sprite bounds ius variable so everytime we updated sprite we update also transform2d components bounds
+                // Sprite bounds is variable so everytime we updated sprite we update also transform2d components bounds
                 // transform2D component bounds is the rectangle we will use to draw sprite at Draw method.
                 Transform2DComponent Object2D = entity.GetComponent<Transform2DComponent>();
                 Object2D.Size = new Vector2(entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Width,
@@ -42,7 +42,7 @@ namespace BattleNumbers.ECSSystems
             }
             else if (entity.HasComponent<SpriteComponent>())
             {
-                // Sprite bounds ius variable so everytime we updated sprite we update also transform2d components bounds
+                // Sprite bounds is variable so everytime we updated sprite we update also transform2d components bounds
                 // transform2D component bounds is the rectangle we will use to draw sprite at Draw method.
                 Transform2DComponent Object2D = entity.GetComponent<Transform2DComponent>();
                 Object2D.Size = new Vector2(entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Width,

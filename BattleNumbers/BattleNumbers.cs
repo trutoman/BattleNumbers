@@ -11,13 +11,14 @@ namespace BattleNumbers
         private GraphicsDeviceManager graphics;                
         private SceneManager sceneManager;
 
-        private int screenWidth = 0;
-        private int screenHeight = 0;
         public BattleNumbers()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+        }
 
+        protected override void Initialize()
+        {
             this.graphics.PreferMultiSampling = false;
             this.graphics.PreferredBackBufferWidth = 1280;
             this.graphics.PreferredBackBufferHeight = 720;
@@ -27,29 +28,12 @@ namespace BattleNumbers
             IsMouseVisible = true;
 
             this.sceneManager = new SceneManager(this);
-        }
-
-        protected override void Initialize()
-        {
             Components.Add(sceneManager);
             base.Initialize();
         }
 
         protected override void LoadContent()
         {                       
-            screenWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            screenHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-
-            if (screenWidth >= this.graphics.PreferredBackBufferWidth)
-            {
-                screenWidth = this.graphics.PreferredBackBufferWidth;
-            }
-            if (screenHeight >= this.graphics.PreferredBackBufferHeight)
-            {
-                screenHeight = this.graphics.PreferredBackBufferHeight;
-            }
-            graphics.ApplyChanges();
-
             this.sceneManager.LoadScene(new GameBaseScene(this));
         }
 

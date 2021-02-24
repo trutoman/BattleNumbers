@@ -13,7 +13,7 @@ namespace BattleNumbers.ECSEntities
         public RenderArchetype() :
             base(new Type[] {
                 typeof(Transform2DComponent),
-                typeof(AnimatedSpriteComponent)
+                typeof(RendererComponent)
             })
         { }
 

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace BattleNumbers.ECSSystems
 {
@@ -36,8 +37,13 @@ namespace BattleNumbers.ECSSystems
                 // Sprite bounds is variable so everytime we updated sprite we update also transform2d components bounds
                 // transform2D component bounds is the rectangle we will use to draw sprite at Draw method.
                 Transform2DComponent Object2D = entity.GetComponent<Transform2DComponent>();
-                Object2D.Size = new Vector2(entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Width,
+                Object2D.Size = new Vector2(
+                    entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Width,
                     entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Height);
+
+            }
+            else if (entity.HasComponent<RendererComponent>())
+            {
 
             }
             else if (entity.HasComponent<SpriteComponent>())
@@ -45,7 +51,8 @@ namespace BattleNumbers.ECSSystems
                 // Sprite bounds is variable so everytime we updated sprite we update also transform2d components bounds
                 // transform2D component bounds is the rectangle we will use to draw sprite at Draw method.
                 Transform2DComponent Object2D = entity.GetComponent<Transform2DComponent>();
-                Object2D.Size = new Vector2(entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Width,
+                Object2D.Size = new Vector2(
+                    entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Width,
                     entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Height);
             }
         }
@@ -76,10 +83,14 @@ namespace BattleNumbers.ECSSystems
         }
         private void DrawAnimatedSpriteComponent(ECSEntity entity)
         {
+            string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
             AnimatedSpriteComponent sprite = entity.GetComponent<AnimatedSpriteComponent>();
 
             var region = sprite.TextureRegion;
+
+            Debug.Print($"{currentMethodName} - {object2D.ToString()}");
 
             this.Batch.Draw(
                 region.Texture,

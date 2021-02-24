@@ -7,6 +7,7 @@ using BattleNumbers.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Diagnostics;
 using System.Xml;
 
 namespace BattleNumbers.Scene
@@ -68,12 +69,12 @@ namespace BattleNumbers.Scene
             entityFactory.LoadContent(world, gameContent);
 
             // Create and register entities
-            ECSEntity entity = entityFactory.CreateRenderEntity(new Rectangle(0, 0, 1280, 720), gameContent.background);
-            ECSEntity entity2 = entityFactory.CreateAnimatedSpriteEntity(new Rectangle(0, 0, 1280, 720), gameContent.daiManjiSheet, gameContent.daiManjiData);
-            ECSEntity entity3 = entityFactory.CreateTokenEntity(new Rectangle(0, 0, 10, 10), gameContent.daiManjiSheet, gameContent.daiManjiData);
+            ECSEntity entity = entityFactory.CreateRenderEntity(new Rectangle(0, 0, 1, 1), gameContent.background);
+            //ECSEntity entity2 = entityFactory.CreateAnimatedSpriteEntity(new Point(100, 100), gameContent.daiManjiSheet, gameContent.daiManjiData);
+            ECSEntity entity3 = entityFactory.CreateTokenEntity(new Point(500,100), gameContent.daiManjiSheet, gameContent.daiManjiData);
 
             renderedSystem.UpdateEntityRegistration(entity);
-            renderedSystem.UpdateEntityRegistration(entity2);
+            //renderedSystem.UpdateEntityRegistration(entity2);
             renderedSystem.UpdateEntityRegistration(entity3);
             interactionSystem.UpdateEntityRegistration(entity3);
         }
@@ -94,6 +95,7 @@ namespace BattleNumbers.Scene
             {
                 if (!this.isPaused)
                 {
+                    Debug.Print("----UPDATE------------------------------------");
                     world.Update(gameTime);
                 }
             }
@@ -103,6 +105,7 @@ namespace BattleNumbers.Scene
         {
             if (this.Enabled)
             {
+                Debug.Print("----DRAW------------------------------------");
                 world.Draw(gameTime);
             }
         }

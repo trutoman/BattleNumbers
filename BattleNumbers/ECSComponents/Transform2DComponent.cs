@@ -8,6 +8,7 @@ namespace BattleNumbers.ECSComponents
         public Transform2DComponent Parent { get; set; }
         public Vector2 Position { get; set; }
         public Vector2 Size { get; set; }
+        // TODO : Modify scale should modify bound to sccalebounds??
         public Vector2 Scale { get; set; }
         public float Rotation { get; set; }
 
@@ -59,5 +60,10 @@ namespace BattleNumbers.ECSComponents
         public static Vector2 Down => new Vector2(0, 1);
         public static Vector2 Right => new Vector2(1, 0);
         public static Vector2 Left => new Vector2(-1, 0);
+
+        public override string ToString()
+        {
+            return $"pos : {this.Position}, bounds {this.Bounds}";
+        }
     }
 }

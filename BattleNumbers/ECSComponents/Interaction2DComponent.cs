@@ -1,7 +1,9 @@
 ﻿using BattleNumbers.ECS;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace BattleNumbers.ECSComponents
@@ -21,6 +23,8 @@ namespace BattleNumbers.ECSComponents
         // Properties
         public bool IsHovered { get; private set; }
         public bool IsPressed { get; private set; }
+        public Point RelativePressedPoint { get; set; }
+        public Point Origin { get; set; }
         public bool IsDraged { get; private set; }
 
         // Mouse Events
@@ -49,8 +53,8 @@ namespace BattleNumbers.ECSComponents
         }
 
         internal void OnPress(MouseEventArgs e)
-        {
-            IsPressed = true;
+        {            
+            IsPressed = true;            
             Press?.Invoke(this, e);
         }
 
@@ -66,20 +70,23 @@ namespace BattleNumbers.ECSComponents
         }
 
         internal void OnMove(MouseEventArgs e)
-        {            
+        {
+            IsPressed = true;
             Move?.Invoke(this, e);
         }
 
         // Trigger Drag Events
         internal void OnDragStart(DragEventArgs e)
         {
-            IsDraged = true;
+            IsDraged = true;            
             DragStart?.Invoke(this, e);
         }
 
         internal void OnDragOver(DragEventArgs e)
         {
             IsDraged = false;
+            // This is executed after OnRelease event so we dont modify RelativePressed before execute OnRelease handler
+            // this.RelativePressedPoint = Point.Zero;
             DragOver?.Invoke(this, e);
         }
 

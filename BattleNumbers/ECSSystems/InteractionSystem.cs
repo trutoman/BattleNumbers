@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using static BattleNumbers.ECSComponents.Interaction2DComponent;
 
@@ -40,14 +41,14 @@ namespace BattleNumbers.ECSSystems
             Vector2 p = _mousePosition - this.World.Game.SceneManager.InputTranslate;
             p = Vector2.Transform(p, this.World.Game.SceneManager.InputScale);
             CurrentMouseState = new MouseState(
-                (int)p.X, 
-                (int)p.Y, 
-                CurrentMouseState.ScrollWheelValue, 
-                CurrentMouseState.LeftButton, 
-                CurrentMouseState.MiddleButton, 
-                CurrentMouseState.RightButton, 
-                CurrentMouseState.XButton1, 
-                CurrentMouseState.XButton2);           
+                (int)p.X,
+                (int)p.Y,
+                CurrentMouseState.ScrollWheelValue,
+                CurrentMouseState.LeftButton,
+                CurrentMouseState.MiddleButton,
+                CurrentMouseState.RightButton,
+                CurrentMouseState.XButton1,
+                CurrentMouseState.XButton2);
         }
 
         public void End()
@@ -118,6 +119,8 @@ namespace BattleNumbers.ECSSystems
         {
             if (!interaction.IsPressed && IsEntityPressed(transform, CurrentMouseState))
             {
+                string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+                Debug.Print($"{currentMethodName} - {transform.ToString()}  entitypressed");
                 return true;
             }
             return false;
@@ -157,6 +160,7 @@ namespace BattleNumbers.ECSSystems
             if (!interaction.IsDraged && IsEntityPressed(transform, CurrentMouseState)
                 && IsMouseReleased(PreviousMouseState))
             {
+                Debug.Print("DRAGGGGGGGGGGED START");
                 return true;
             }
 
@@ -174,8 +178,6 @@ namespace BattleNumbers.ECSSystems
 
             return false;
         }
-
-
 
         private bool CheckDrop(Transform2DComponent transform, Interaction2DComponent interaction)
         {
@@ -220,7 +222,6 @@ namespace BattleNumbers.ECSSystems
         public static bool IsEntityHovered(Transform2DComponent transform, MouseState mouseState)
         {
             var bounds = new Rectangle(transform.AbsolutePosition.ToPoint(), transform.ScaleSize.ToPoint());
-
 
             return mouseState.Position.X >= bounds.X &&
                    mouseState.Position.X <= bounds.X + bounds.Width &&

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace BattleNumbers.ECSEntities
@@ -25,31 +26,35 @@ namespace BattleNumbers.ECSEntities
             ECSEntity entity = World.CreateEntity(new RenderArchetype(), texture);
 
             Transform2DComponent transform = entity.GetComponent<Transform2DComponent>();
-            //transform.Bounds = bounds;
+            transform.Bounds = bounds;
 
             return entity;
         }
 
-        public ECSEntity CreateAnimatedSpriteEntity(Rectangle bounds, Texture2D sheet, SpriteData.SpriteData sheetData)
+        public ECSEntity CreateAnimatedSpriteEntity(Point origin, Texture2D sheet, SpriteData.SpriteData sheetData)
         {
             ECSEntity entity = World.CreateEntity(new AnimatedSpriteArchetype(), sheet, sheetData);
 
             Transform2DComponent transform = entity.GetComponent<Transform2DComponent>();
             AnimatedSpriteComponent animation = entity.GetComponent<AnimatedSpriteComponent>();
 
-            //transform.Bounds = bounds;
-
-            transform.Position = new Vector2(40, 140);
-
             animation.Play(sheetData.InitSequence);
+
+            Rectangle rect = new Rectangle(
+                origin.X,
+                origin.Y,
+                animation.CurrentAnimation.CurrentFrame.Width,
+                animation.CurrentAnimation.CurrentFrame.Height);
+
+            transform.Bounds = rect;
 
             return entity;
         }
 
-        public ECSEntity CreateTokenEntity(Rectangle bounds, Texture2D sheet, SpriteData.SpriteData sheetData)
+        public ECSEntity CreateTokenEntity(Point origin, Texture2D sheet, SpriteData.SpriteData sheetData)
         {
 
-            ECSEntity entity = World.CreateEntity(new TokenArchetype(), sheet, sheetData);
+            ECSEntity entity = World.CreateEntity(new TokenArchetype(), sheet, sheetData, origin);
 
             TokenTypeComponent token = entity.GetComponent<TokenTypeComponent>();
             Transform2DComponent transform = entity.GetComponent<Transform2DComponent>();
@@ -58,53 +63,85 @@ namespace BattleNumbers.ECSEntities
 
             animation.Play(sheetData.InitSequence);
 
-            transform.Bounds = bounds;
-            
-            interaction.Press += OnTokenPressed;
-            interaction.Release += OnTokenReleased;
-            interaction.DragOver += OnTokenDragOver;
-            interaction.Move += OnTokenMove;
+            Rectangle rect = new Rectangle(
+                origin.X, 
+                origin.Y, 
+                animation.CurrentAnimation.CurrentFrame.Width, 
+                animation.CurrentAnimation.CurrentFrame.Height);
+
+            transform.Bounds = rect;
+
+            interaction.Press += TokenEntityPressHandler;
+            interaction.Release += TokenEntityReleaseHandler;
+            interaction.Move += TokenEntityMoveHandler;
+            interaction.DragStart += TokenEntityDragStartHandler;
 
             return entity;
         }
 
-        private void OnTokenMove(object sender, MouseEventArgs e)
+        private void TokenEntityMoveHandler(object sender, MouseEventArgs e)
         {
             int id = e.EntityId;
+            string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
             ECSEntity entity = this.World.GetEntityById(id);
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
+            Interaction2DComponent interaction = entity.GetComponent<Interaction2DComponent>();
 
-            object2D.Position = new Vector2(e.MouseState.X, e.MouseState.Y);
+            Debug.Print($"PREVV {currentMethodName} finally {object2D}");
+            Debug.Print($"PREVV {currentMethodName} relative {interaction.RelativePressedPoint}");
+            Debug.Print($"PREVV {currentMethodName} mouse {e.MouseState.Position}");
+
+            object2D.Position = new Vector2(e.MouseState.Position.X - interaction.RelativePressedPoint.X, e.MouseState.Position.Y - interaction.RelativePressedPoint.Y);
+            object2D.Bounds = new Rectangle((int)object2D.Position.X, (int)object2D.Position.Y, (int)object2D.Size.X, (int)object2D.Size.Y);
+
+            Debug.Print($"{currentMethodName} finally {object2D}");
         }
 
-        private void OnTokenPressed(object sender, MouseEventArgs e)
+        private void TokenEntityPressHandler(object sender, MouseEventArgs e)
         {
             int id = e.EntityId;
+            string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
             ECSEntity entity = this.World.GetEntityById(id);
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
 
             object2D.Scale = new Vector2(1.15f, 1.15f);
+            object2D.Bounds = new Rectangle((int)object2D.Position.X, (int)object2D.Position.Y, (int)object2D.Size.X, (int)object2D.Size.Y);
+
+            Debug.Print($"{currentMethodName} finally {object2D}");
         }
 
-        private void OnTokenReleased(object sender, MouseEventArgs e)
+        private void TokenEntityReleaseHandler(object sender, MouseEventArgs e)
         {
             int id = e.EntityId;
+            string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
             ECSEntity entity = this.World.GetEntityById(id);
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
+            Interaction2DComponent interaction = entity.GetComponent<Interaction2DComponent>();
 
+            Debug.Print($"{currentMethodName} release MOUZ {e.MouseState.Position}");
+            Debug.Print($"{currentMethodName} release RelatiVE {interaction.RelativePressedPoint}");
+
+            object2D.Position = new Vector2(e.MouseState.Position.X - interaction.RelativePressedPoint.X, e.MouseState.Position.Y - interaction.RelativePressedPoint.Y);            
             object2D.Scale = new Vector2(1f, 1f);
+            object2D.Bounds = new Rectangle((int)object2D.Position.X, (int)object2D.Position.Y, (int)object2D.Size.X, (int)object2D.Size.Y);
+
+            Debug.Print($"{currentMethodName} finally {object2D}");
         }
-        private void OnTokenDragOver(object sender, DragEventArgs e)
+
+        private void TokenEntityDragStartHandler(object sender, MouseEventArgs e)
         {
             int id = e.EntityId;
+            string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
             ECSEntity entity = this.World.GetEntityById(id);
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
+            Interaction2DComponent interaction = entity.GetComponent<Interaction2DComponent>();
 
-            object2D.Position = new Vector2(e.MouseState.X, e.MouseState.Y);
+            interaction.RelativePressedPoint = new Point(e.MouseState.Position.X - (int)object2D.Position.X, e.MouseState.Position.Y - (int)object2D.Position.Y);
         }
+
     }
 }

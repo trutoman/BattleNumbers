@@ -160,7 +160,6 @@ namespace BattleNumbers.ECSSystems
             if (!interaction.IsDraged && IsEntityPressed(transform, CurrentMouseState)
                 && IsMouseReleased(PreviousMouseState))
             {
-                Debug.Print("DRAGGGGGGGGGGED START");
                 return true;
             }
 

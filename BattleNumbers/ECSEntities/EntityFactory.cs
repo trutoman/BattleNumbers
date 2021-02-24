@@ -72,6 +72,9 @@ namespace BattleNumbers.ECSEntities
             transform.Bounds = rect;
 
             interaction.Press += TokenEntityPressHandler;
+            // Using Release event in place of dragover because of : 
+            // due to time or performance settings sometimes fast movement when dragged an object            
+            // produces a IsDragged = false 
             interaction.Release += TokenEntityReleaseHandler;
             interaction.Move += TokenEntityMoveHandler;
             interaction.DragStart += TokenEntityDragStartHandler;

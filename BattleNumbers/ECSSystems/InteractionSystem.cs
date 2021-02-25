@@ -220,7 +220,7 @@ namespace BattleNumbers.ECSSystems
 
         public static bool IsEntityHovered(Transform2DComponent transform, MouseState mouseState)
         {
-            var bounds = new Rectangle(transform.AbsolutePosition.ToPoint(), transform.ScaleSize.ToPoint());
+            var bounds = new Rectangle(transform.TopLeftCornerPosition.ToPoint(), transform.ScaleSize.ToPoint());
 
             return mouseState.Position.X >= bounds.X &&
                    mouseState.Position.X <= bounds.X + bounds.Width &&

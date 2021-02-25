@@ -69,9 +69,9 @@ namespace BattleNumbers.Scene
             entityFactory.LoadContent(world, gameContent);
 
             // Create and register entities
-            ECSEntity entity = entityFactory.CreateRenderEntity(new Rectangle(0, 0, 1, 1), gameContent.background);
+            ECSEntity entity = entityFactory.CreateRenderEntity(new Point(0, 0), gameContent.background);
             //ECSEntity entity2 = entityFactory.CreateAnimatedSpriteEntity(new Point(100, 100), gameContent.daiManjiSheet, gameContent.daiManjiData);
-            ECSEntity entity3 = entityFactory.CreateTokenEntity(new Point(500,100), gameContent.daiManjiSheet, gameContent.daiManjiData);
+            ECSEntity entity3 = entityFactory.CreateTokenEntity(new Point(82,58), gameContent.daiManjiSheet, gameContent.daiManjiData);
 
             renderedSystem.UpdateEntityRegistration(entity);
             //renderedSystem.UpdateEntityRegistration(entity2);

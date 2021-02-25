@@ -40,7 +40,6 @@ namespace BattleNumbers.ECSSystems
                 Object2D.Size = new Vector2(
                     entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Width,
                     entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Height);
-
             }
             else if (entity.HasComponent<RendererComponent>())
             {
@@ -88,13 +87,13 @@ namespace BattleNumbers.ECSSystems
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
             AnimatedSpriteComponent sprite = entity.GetComponent<AnimatedSpriteComponent>();
 
-            var region = sprite.TextureRegion;
+            var region = sprite.TextureRegion;    
 
             Debug.Print($"{currentMethodName} - {object2D.ToString()}");
 
             this.Batch.Draw(
                 region.Texture,
-                object2D.Position,
+                object2D.TopLeftCornerPosition,
                 region.Bounds,
                 sprite.Color,
                 object2D.Rotation,
@@ -110,6 +109,7 @@ namespace BattleNumbers.ECSSystems
             SpriteComponent sprite = entity.GetComponent<SpriteComponent>();
 
             var region = sprite.TextureRegion;
+            Vector2 drawPosition = new Vector2(object2D.Position.X - region.Width / 2, object2D.Position.Y - region.Height / 2);
 
             this.Batch.Draw(
                 region.Texture,
@@ -117,7 +117,7 @@ namespace BattleNumbers.ECSSystems
                 region.Bounds,
                 sprite.Color,
                 object2D.Rotation,
-                origin: Vector2.Zero,
+                origin: object2D.Position,
                 object2D.ScaleSize,
                 sprite.Effects,
                 sprite.Depth);

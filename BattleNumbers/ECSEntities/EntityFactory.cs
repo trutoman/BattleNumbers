@@ -21,17 +21,17 @@ namespace BattleNumbers.ECSEntities
             this.Content = gameContent;
         }
 
-        public ECSEntity CreateRenderEntity(Rectangle bounds, Texture2D texture)
+        public ECSEntity CreateRenderEntity(Point position, Texture2D texture)
         {
             ECSEntity entity = World.CreateEntity(new RenderArchetype(), texture);
 
             Transform2DComponent transform = entity.GetComponent<Transform2DComponent>();
-            transform.Bounds = bounds;
+            transform.Position = new Vector2(position.X, position.Y);
 
             return entity;
         }
 
-        public ECSEntity CreateAnimatedSpriteEntity(Point origin, Texture2D sheet, SpriteData.SpriteData sheetData)
+        public ECSEntity CreateAnimatedSpriteEntity(Point position, Texture2D sheet, SpriteData.SpriteData sheetData)
         {
             ECSEntity entity = World.CreateEntity(new AnimatedSpriteArchetype(), sheet, sheetData);
 
@@ -40,21 +40,16 @@ namespace BattleNumbers.ECSEntities
 
             animation.Play(sheetData.InitSequence);
 
-            Rectangle rect = new Rectangle(
-                origin.X,
-                origin.Y,
-                animation.CurrentAnimation.CurrentFrame.Width,
-                animation.CurrentAnimation.CurrentFrame.Height);
-
-            transform.Bounds = rect;
+            transform.Size = new Vector2(animation.CurrentAnimation.CurrentFrame.Width, animation.CurrentAnimation.CurrentFrame.Height);
+            transform.Position = new Vector2(position.X, position.Y);            
 
             return entity;
         }
 
-        public ECSEntity CreateTokenEntity(Point origin, Texture2D sheet, SpriteData.SpriteData sheetData)
+        public ECSEntity CreateTokenEntity(Point position, Texture2D sheet, SpriteData.SpriteData sheetData)
         {
 
-            ECSEntity entity = World.CreateEntity(new TokenArchetype(), sheet, sheetData, origin);
+            ECSEntity entity = World.CreateEntity(new TokenArchetype(), sheet, sheetData);
 
             TokenTypeComponent token = entity.GetComponent<TokenTypeComponent>();
             Transform2DComponent transform = entity.GetComponent<Transform2DComponent>();
@@ -63,13 +58,9 @@ namespace BattleNumbers.ECSEntities
 
             animation.Play(sheetData.InitSequence);
 
-            Rectangle rect = new Rectangle(
-                origin.X, 
-                origin.Y, 
-                animation.CurrentAnimation.CurrentFrame.Width, 
-                animation.CurrentAnimation.CurrentFrame.Height);
-
-            transform.Bounds = rect;
+            transform.Size = new Vector2(animation.CurrentAnimation.CurrentFrame.Width, animation.CurrentAnimation.CurrentFrame.Height);
+            transform.Position = new Vector2(position.X, position.Y);
+            
 
             interaction.Press += TokenEntityPressHandler;
             // Using Release event in place of dragover because of : 
@@ -91,12 +82,7 @@ namespace BattleNumbers.ECSEntities
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
             Interaction2DComponent interaction = entity.GetComponent<Interaction2DComponent>();
 
-            Debug.Print($"PREVV {currentMethodName} finally {object2D}");
-            Debug.Print($"PREVV {currentMethodName} relative {interaction.RelativePressedPoint}");
-            Debug.Print($"PREVV {currentMethodName} mouse {e.MouseState.Position}");
-
-            object2D.Position = new Vector2(e.MouseState.Position.X - interaction.RelativePressedPoint.X, e.MouseState.Position.Y - interaction.RelativePressedPoint.Y);
-            object2D.Bounds = new Rectangle((int)object2D.Position.X, (int)object2D.Position.Y, (int)object2D.Size.X, (int)object2D.Size.Y);
+            object2D.Position = new Vector2(e.MouseState.Position.X - interaction.RelativePressedPoint.X, e.MouseState.Position.Y - interaction.RelativePressedPoint.Y);            
 
             Debug.Print($"{currentMethodName} finally {object2D}");
         }
@@ -109,8 +95,7 @@ namespace BattleNumbers.ECSEntities
             ECSEntity entity = this.World.GetEntityById(id);
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
 
-            object2D.Scale = new Vector2(1.15f, 1.15f);
-            object2D.Bounds = new Rectangle((int)object2D.Position.X, (int)object2D.Position.Y, (int)object2D.Size.X, (int)object2D.Size.Y);
+            object2D.Scale = new Vector2(1.15f, 1.15f);            
 
             Debug.Print($"{currentMethodName} finally {object2D}");
         }
@@ -124,12 +109,8 @@ namespace BattleNumbers.ECSEntities
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
             Interaction2DComponent interaction = entity.GetComponent<Interaction2DComponent>();
 
-            Debug.Print($"{currentMethodName} release MOUZ {e.MouseState.Position}");
-            Debug.Print($"{currentMethodName} release RelatiVE {interaction.RelativePressedPoint}");
-
             object2D.Position = new Vector2(e.MouseState.Position.X - interaction.RelativePressedPoint.X, e.MouseState.Position.Y - interaction.RelativePressedPoint.Y);            
-            object2D.Scale = new Vector2(1f, 1f);
-            object2D.Bounds = new Rectangle((int)object2D.Position.X, (int)object2D.Position.Y, (int)object2D.Size.X, (int)object2D.Size.Y);
+            object2D.Scale = new Vector2(1f, 1f);            
 
             Debug.Print($"{currentMethodName} finally {object2D}");
         }

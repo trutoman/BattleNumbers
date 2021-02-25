@@ -6,10 +6,43 @@ namespace BattleNumbers.ECSComponents
     public class Transform2DComponent : IECSComponent
     {
         public Transform2DComponent Parent { get; set; }
-        public Vector2 Position { get; set; }
-        public Vector2 Size { get; set; }
+        public Vector2 TopLeftCornerPosition { get; private set; }
+        public Vector2 CenteredOrigin { get; private set; }
+
+        private Vector2 position;
+        public Vector2 Position { 
+            get { return this.position; }
+            set
+            {
+                TopLeftCornerPosition = new Vector2(value.X - this.Size.X / 2, value.Y - this.Size.Y / 2);
+                CenteredOrigin = value - TopLeftCornerPosition;
+                this.position = value;
+            }
+        }
+        private Vector2 size;
+        public Vector2 Size 
+        { 
+            get { return this.size; }
+            set
+            {
+                TopLeftCornerPosition = new Vector2(this.Position.X - value.X / 2, this.Position.Y - value.Y / 2);
+                CenteredOrigin = this.Position - TopLeftCornerPosition;
+                this.size = value;
+            } 
+        }
         // TODO : Modify scale should modify bound to sccalebounds??
-        public Vector2 Scale { get; set; }
+        private Vector2 scale;
+        public Vector2 Scale 
+        {
+            get { return scale; }
+            set
+            { 
+                Vector2 newSize = Vector2.Multiply(Size, Scale);
+                this.TopLeftCornerPosition = new Vector2(this.Position.X - newSize.X / 2, this.Position.Y - newSize.Y / 2);
+                this.CenteredOrigin = this.Position - TopLeftCornerPosition;
+                this.scale = value;
+            } 
+        }
         public float Rotation { get; set; }
 
         public Transform2DComponent()
@@ -26,19 +59,12 @@ namespace BattleNumbers.ECSComponents
 
         public Vector2 AbsolutePosition => HasParent ? Parent.AbsolutePosition + Position : Position;
 
-        public Rectangle Bounds
-        {
-            get => new Rectangle(Position.ToPoint(), Size.ToPoint());
-            set
-            {
-                Position = new Vector2(value.X, value.Y);
-                Size = new Vector2(value.Width, value.Height);
-            }
-        }
+        // Centered Bounds
+        public Rectangle Bounds => new Rectangle(TopLeftCornerPosition.ToPoint(), Size.ToPoint());        
 
         public Vector2 ScaleSize => Vector2.Multiply(Size, Scale);
 
-        public Rectangle ScaleBounds => new Rectangle(Position.ToPoint(), ScaleSize.ToPoint());
+        public Rectangle ScaleBounds => new Rectangle(TopLeftCornerPosition.ToPoint(), ScaleSize.ToPoint());
 
         public void ScaleBy(float scaleX, float scaleY)
         {
@@ -63,7 +89,8 @@ namespace BattleNumbers.ECSComponents
 
         public override string ToString()
         {
-            return $"pos : {this.Position}, bounds {this.Bounds}";
+            return $"position : {this.Position}, topLeft : {this.TopLeftCornerPosition}, bounds : {this.Bounds}, origin : {this.CenteredOrigin}, scale : {this.scale}";
+
         }
     }
 }

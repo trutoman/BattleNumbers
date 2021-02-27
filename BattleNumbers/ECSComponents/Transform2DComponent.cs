@@ -5,6 +5,7 @@ namespace BattleNumbers.ECSComponents
 {
     public class Transform2DComponent : IECSComponent
     {
+        public bool Limited { get; set; }
         public Vector2 Limits { get; set; }        
         public Transform2DComponent Parent { get; set; }
         public Vector2 TopLeftCornerPosition { get; private set; }
@@ -14,8 +15,13 @@ namespace BattleNumbers.ECSComponents
             get { return this.position; }
             set
             {
-                Vector2 rectifiedPosition = RectifyPosition(value);
-                TopLeftCornerPosition = new Vector2(rectifiedPosition.X - this.ScaleSize.X / 2, rectifiedPosition.Y - this.ScaleSize.Y / 2);
+                Vector2 rectifiedPosition = value;
+                if (Limited)
+                {
+                    rectifiedPosition = RectifyPosition(value);
+                    TopLeftCornerPosition = new Vector2(rectifiedPosition.X - this.ScaleSize.X / 2, rectifiedPosition.Y - this.ScaleSize.Y / 2);
+                }
+                
                 this.position = rectifiedPosition;
             }
         }
@@ -25,8 +31,12 @@ namespace BattleNumbers.ECSComponents
             get { return this.size; }
             set
             {
+                Vector2 rectifiedPosition = this.Position;
                 this.size = value;
-                Vector2 rectifiedPosition = RectifyPosition(this.Position);
+                if (Limited)
+                {
+                    rectifiedPosition = RectifyPosition(this.Position);
+                }
                 TopLeftCornerPosition = new Vector2(rectifiedPosition.X - this.ScaleSize.X / 2, rectifiedPosition.Y - this.ScaleSize.Y / 2);              
             } 
         }
@@ -37,8 +47,12 @@ namespace BattleNumbers.ECSComponents
             get { return scale; }
             set
             {
+                Vector2 rectifiedPosition = this.Position;
                 this.scale = value;
-                Vector2 rectifiedPosition = RectifyPosition(this.Position);
+                if (Limited)
+                {
+                    rectifiedPosition = RectifyPosition(this.Position);
+                }
                 this.TopLeftCornerPosition = new Vector2(rectifiedPosition.X - this.ScaleSize.X / 2, rectifiedPosition.Y - this.ScaleSize.Y / 2);
             } 
         }
@@ -57,8 +71,9 @@ namespace BattleNumbers.ECSComponents
         }
 
         public Transform2DComponent(Vector2 position, Vector2 limits, Vector2 size)
-        {
+        {            
             Limits = limits;
+            Limited = (Limits != Vector2.Zero);
             Size = size;
             Position = position;
             Scale = Vector2.One;

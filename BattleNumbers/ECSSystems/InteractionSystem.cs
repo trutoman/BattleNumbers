@@ -75,6 +75,7 @@ namespace BattleNumbers.ECSSystems
             bool onOver = CheckOver(transform, interaction);
             bool onPress = CheckPress(transform, interaction);
             bool onRelease = CheckRelease(transform, interaction);
+            bool onReleaseNotHovered = CheckReleaseNotHovered(transform, interaction);
             bool onClick = CheckClick(transform, interaction);
             bool onDragStart = CheckDragStart(transform, interaction);
             bool onDragOver = CheckDragOver(transform, interaction);
@@ -86,6 +87,7 @@ namespace BattleNumbers.ECSSystems
             if (onOver) interaction.OnOver(BuildMouseEvent(entity.Id));
             if (onPress) interaction.OnPress(BuildMouseEvent(entity.Id));
             if (onRelease) interaction.OnRelease(BuildMouseEvent(entity.Id));
+            if (onReleaseNotHovered) interaction.OnReleaseNotHovered(BuildMouseEvent(entity.Id));
             if (onClick) interaction.OnClick(BuildMouseEvent(entity.Id));
             if (onDragStart) interaction.OnDragStart(BuildDragEvent(entity.Id));
             if (onDragOver) interaction.OnDragOver(BuildDragEvent(entity.Id));
@@ -119,8 +121,6 @@ namespace BattleNumbers.ECSSystems
         {
             if (!interaction.IsPressed && IsEntityPressed(transform, CurrentMouseState))
             {
-                string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
-                Debug.Print($"{currentMethodName} - {transform.ToString()}  entitypressed");
                 return true;
             }
             return false;
@@ -129,6 +129,15 @@ namespace BattleNumbers.ECSSystems
         private bool CheckRelease(Transform2DComponent transform, Interaction2DComponent interaction)
         {
             if (interaction.IsPressed && !IsEntityPressed(transform, CurrentMouseState))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool CheckReleaseNotHovered(Transform2DComponent transform, Interaction2DComponent interaction)
+        {
+            if (!IsMousePressed(CurrentMouseState))
             {
                 return true;
             }

@@ -69,7 +69,7 @@ namespace BattleNumbers.Scene
             entityFactory.LoadContent(world, gameContent);
 
             // Create and register entities
-            ECSEntity entity = entityFactory.CreateRenderEntity(new Point(0, 0), gameContent.background);
+            //ECSEntity entity = entityFactory.CreateRenderEntity(new Point(0, 0), gameContent.background);
             //ECSEntity entity2 = entityFactory.CreateAnimatedSpriteEntity(new Point(100, 100), gameContent.daiManjiSheet, gameContent.daiManjiData);
             ECSEntity entity3 = entityFactory.CreateTokenEntity(
                 new Vector2(100,100), 
@@ -80,7 +80,7 @@ namespace BattleNumbers.Scene
             string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
             Debug.Print($"{currentMethodName} finally {entity3.GetComponent<Transform2DComponent>()}");
 
-            renderedSystem.UpdateEntityRegistration(entity);
+            //renderedSystem.UpdateEntityRegistration(entity);
             //renderedSystem.UpdateEntityRegistration(entity2);
             renderedSystem.UpdateEntityRegistration(entity3);
             interactionSystem.UpdateEntityRegistration(entity3);

@@ -59,7 +59,7 @@ namespace BattleNumbers.ECSEntities
             // Using Release event in place of dragover because of : 
             // due to time or performance settings sometimes fast movement when dragged an object            
             // produces a IsDragged = false 
-            interaction.Release += TokenEntityReleaseHandler;
+            interaction.ReleaseNotHovered += TokenEntityReleaseNotHoveredHandler;
             interaction.Press += TokenEntityPressHandler;            
             interaction.Move += TokenEntityMoveHandler;
             interaction.DragStart += TokenEntityDragStartHandler;
@@ -97,7 +97,7 @@ namespace BattleNumbers.ECSEntities
             Debug.Print($"{currentMethodName} finally {object2D}");
         }
 
-        private void TokenEntityReleaseHandler(object sender, MouseEventArgs e)
+        private void TokenEntityReleaseNotHoveredHandler(object sender, MouseEventArgs e)
         {
             int id = e.EntityId;
             string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;

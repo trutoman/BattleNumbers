@@ -32,6 +32,7 @@ namespace BattleNumbers.ECSComponents
         public event EventHandler<MouseEventArgs> Over;
         public event EventHandler<MouseEventArgs> Press;
         public event EventHandler<MouseEventArgs> Release;
+        public event EventHandler<MouseEventArgs> ReleaseNotHovered;
         public event EventHandler<MouseEventArgs> Click;
         public event EventHandler<MouseEventArgs> Move;
 
@@ -62,6 +63,11 @@ namespace BattleNumbers.ECSComponents
         {
             IsPressed = false;
             Release?.Invoke(this, e);
+        }
+        internal void OnReleaseNotHovered(MouseEventArgs e)
+        {
+            IsPressed = false;
+            ReleaseNotHovered?.Invoke(this, e);
         }
         internal void OnClick(MouseEventArgs e)
         {

@@ -33,7 +33,10 @@ namespace BattleNumbers.ECSComponents.Sprite
         public bool IsPaused { get; private set; }
         public bool IsPlaying => !IsPaused && !IsComplete;
 
+        public int PreviousFrameIndex { get; private set; }
         public int CurrentFrameIndex { get; private set; }
+
+        public bool FrameHasChanged { get; private set; }
         public TextureRegion2D CurrentFrame => Frames[CurrentFrameIndex];
 
         public event Action OnCompleted;
@@ -49,6 +52,8 @@ namespace BattleNumbers.ECSComponents.Sprite
             IsReversed = isReversed;
 
             CurrentFrameIndex = IsReversed ? Frames.Length - 1 : 0;
+            PreviousFrameIndex = CurrentFrameIndex;
+            FrameHasChanged = true;
         }
 
         public void Play()
@@ -118,6 +123,16 @@ namespace BattleNumbers.ECSComponents.Sprite
             }
 
             CurrentFrameIndex = frameIndex;
+
+            if (CurrentFrameIndex != PreviousFrameIndex)
+            {
+                this.FrameHasChanged = true;
+                PreviousFrameIndex = CurrentFrameIndex;
+            }
+            else
+            {
+                this.FrameHasChanged = false;
+            }
 
         }
     }

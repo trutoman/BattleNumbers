@@ -1,5 +1,6 @@
 ﻿using BattleNumbers.ECS;
 using BattleNumbers.ECSComponents.Sprite;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -23,11 +24,15 @@ namespace BattleNumbers.ECSComponents
             Texture2D texture = (Texture2D)args[0];
             SpriteData.SpriteData data = (SpriteData.SpriteData)args[1];
             SpriteSheet spriteSheet = new SpriteSheet(data, texture);
+            AnimatedSpriteComponent animation = new AnimatedSpriteComponent(spriteSheet);
+            animation.Play(data.InitSequence);
+            Vector2 initialSize = new Vector2(animation.CurrentAnimation.CurrentFrame.Width, animation.CurrentAnimation.CurrentFrame.Height);
+
 
             entity.AttachComponent(new TokenTypeComponent());
-            entity.AttachComponent(new Transform2DComponent());
+            entity.AttachComponent(new Transform2DComponent((Vector2)args[2], (Vector2)args[3], initialSize));
             entity.AttachComponent(new Interaction2DComponent());
-            entity.AttachComponent(new AnimatedSpriteComponent(spriteSheet));
+            entity.AttachComponent(animation);
 
             return entity;
         }

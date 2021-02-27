@@ -36,10 +36,18 @@ namespace BattleNumbers.ECSSystems
                 }
                 // Sprite bounds is variable so everytime we updated sprite we update also transform2d components bounds
                 // transform2D component bounds is the rectangle we will use to draw sprite at Draw method.
-                Transform2DComponent Object2D = entity.GetComponent<Transform2DComponent>();
-                Object2D.Size = new Vector2(
-                    entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Width,
-                    entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Height);
+
+                if (animatedSprite.CurrentAnimation.FrameHasChanged)
+                {
+                    Transform2DComponent Object2D = entity.GetComponent<Transform2DComponent>();                    
+
+                    Object2D.Size = new Vector2(
+                        entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Width,
+                        entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Height);
+
+                    string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+                    Debug.Print($"{currentMethodName} finally {Object2D}");
+                }
             }
             else if (entity.HasComponent<RendererComponent>())
             {
@@ -59,7 +67,7 @@ namespace BattleNumbers.ECSSystems
         public void Draw(GameTime gameTime)
         {
             //this.Batch.Begin();
-            this.Batch.Begin(SpriteSortMode.Immediate, null, null, null, null, null,this.World.Game.SceneManager.Scale);
+            this.Batch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, this.World.Game.SceneManager.Scale);
             foreach (ECSEntity entity in this.Entities)
             {
 
@@ -87,7 +95,7 @@ namespace BattleNumbers.ECSSystems
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
             AnimatedSpriteComponent sprite = entity.GetComponent<AnimatedSpriteComponent>();
 
-            var region = sprite.TextureRegion;    
+            var region = sprite.TextureRegion;
 
             Debug.Print($"{currentMethodName} - {object2D.ToString()}");
 

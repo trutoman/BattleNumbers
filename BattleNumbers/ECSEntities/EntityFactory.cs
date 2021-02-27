@@ -46,29 +46,26 @@ namespace BattleNumbers.ECSEntities
             return entity;
         }
 
-        public ECSEntity CreateTokenEntity(Point position, Texture2D sheet, SpriteData.SpriteData sheetData)
+        public ECSEntity CreateTokenEntity(Vector2 position, Vector2 limits, Texture2D sheet, SpriteData.SpriteData sheetData)
         {
 
-            ECSEntity entity = World.CreateEntity(new TokenArchetype(), sheet, sheetData);
+            ECSEntity entity = World.CreateEntity(new TokenArchetype(), sheet, sheetData, position, limits);
 
             TokenTypeComponent token = entity.GetComponent<TokenTypeComponent>();
             Transform2DComponent transform = entity.GetComponent<Transform2DComponent>();
             Interaction2DComponent interaction = entity.GetComponent<Interaction2DComponent>();
             AnimatedSpriteComponent animation = entity.GetComponent<AnimatedSpriteComponent>();
-
-            animation.Play(sheetData.InitSequence);
-
-            transform.Size = new Vector2(animation.CurrentAnimation.CurrentFrame.Width, animation.CurrentAnimation.CurrentFrame.Height);
-            transform.Position = new Vector2(position.X, position.Y);
             
-
-            interaction.Press += TokenEntityPressHandler;
             // Using Release event in place of dragover because of : 
             // due to time or performance settings sometimes fast movement when dragged an object            
             // produces a IsDragged = false 
             interaction.Release += TokenEntityReleaseHandler;
+            interaction.Press += TokenEntityPressHandler;            
             interaction.Move += TokenEntityMoveHandler;
             interaction.DragStart += TokenEntityDragStartHandler;
+
+            string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            Debug.Print($"{currentMethodName} finally {transform}");
 
             return entity;
         }
@@ -125,6 +122,9 @@ namespace BattleNumbers.ECSEntities
             Interaction2DComponent interaction = entity.GetComponent<Interaction2DComponent>();
 
             interaction.RelativePressedPoint = new Point(e.MouseState.Position.X - (int)object2D.Position.X, e.MouseState.Position.Y - (int)object2D.Position.Y);
+
+            
+            Debug.Print($"{currentMethodName} finally {object2D}");
         }
 
     }

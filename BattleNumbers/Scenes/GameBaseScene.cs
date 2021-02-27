@@ -69,11 +69,18 @@ namespace BattleNumbers.Scene
             entityFactory.LoadContent(world, gameContent);
 
             // Create and register entities
-            ECSEntity entity = entityFactory.CreateRenderEntity(new Point(0, 0), gameContent.background);
+            //ECSEntity entity = entityFactory.CreateRenderEntity(new Point(0, 0), gameContent.background);
             //ECSEntity entity2 = entityFactory.CreateAnimatedSpriteEntity(new Point(100, 100), gameContent.daiManjiSheet, gameContent.daiManjiData);
-            ECSEntity entity3 = entityFactory.CreateTokenEntity(new Point(82,58), gameContent.daiManjiSheet, gameContent.daiManjiData);
+            ECSEntity entity3 = entityFactory.CreateTokenEntity(
+                new Vector2(100,100), 
+                new Vector2(world.Game.VirtualWidth, world.Game.VirtualHeight), 
+                gameContent.daiManjiSheet, 
+                gameContent.daiManjiData);
 
-            renderedSystem.UpdateEntityRegistration(entity);
+            string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            Debug.Print($"{currentMethodName} finally {entity3.GetComponent<Transform2DComponent>()}");
+
+            //renderedSystem.UpdateEntityRegistration(entity);
             //renderedSystem.UpdateEntityRegistration(entity2);
             renderedSystem.UpdateEntityRegistration(entity3);
             interactionSystem.UpdateEntityRegistration(entity3);
@@ -95,7 +102,7 @@ namespace BattleNumbers.Scene
             {
                 if (!this.isPaused)
                 {
-                    Debug.Print("----UPDATE------------------------------------");
+                    Debug.Print("---- UPDATE ------------------------------------");
                     world.Update(gameTime);
                 }
             }
@@ -105,7 +112,7 @@ namespace BattleNumbers.Scene
         {
             if (this.Enabled)
             {
-                Debug.Print("----DRAW------------------------------------");
+                Debug.Print("---- DRAW   -------------------------------------");
                 world.Draw(gameTime);
             }
         }

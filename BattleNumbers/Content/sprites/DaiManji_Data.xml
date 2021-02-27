@@ -303,7 +303,7 @@
       <Item>
         <IsLooping>true</IsLooping>
         <IsReversed>false</IsReversed>
-        <FrameDuration>0.03</FrameDuration>
+        <FrameDuration>0.05</FrameDuration>
         <SpriteEffect>None</SpriteEffect>
         <SequenceName>spinning</SequenceName>
         <FromFrame>0</FromFrame>

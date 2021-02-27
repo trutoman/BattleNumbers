@@ -8,6 +8,9 @@ namespace BattleNumbers
 {
     public class BattleNumbers : Game
     {
+        public int VirtualWidth = 1280;
+        public int VirtualHeight = 720;
+
         public GraphicsDeviceManager graphics;                
         public SceneManager SceneManager { get; set; }
 
@@ -28,7 +31,7 @@ namespace BattleNumbers
             this.graphics.ApplyChanges();
             IsMouseVisible = true;
 
-            this.SceneManager = new SceneManager(this, 1280, 720);
+            this.SceneManager = new SceneManager(this, VirtualWidth, VirtualHeight);
             Components.Add(SceneManager);
             base.Initialize();
         }

@@ -137,7 +137,7 @@ namespace BattleNumbers.ECSSystems
 
         private bool CheckReleaseNotHovered(Transform2DComponent transform, Interaction2DComponent interaction)
         {
-            if (!IsMousePressed(CurrentMouseState))
+            if (IsMousePressed(PreviousMouseState) && !IsMousePressed(CurrentMouseState))
             {
                 return true;
             }

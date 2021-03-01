@@ -85,6 +85,11 @@ namespace BattleNumbers.ECSSystems
                 {
                     DrawAnimatedSpriteComponent(entity);
                 }
+                
+                if (entity.HasComponent<TokenTypeComponent>())
+                {
+                    DrawTokenTypeComponent(entity);
+                }
             }
             this.Batch.End();
         }
@@ -129,6 +134,14 @@ namespace BattleNumbers.ECSSystems
                 object2D.ScaleSize,
                 sprite.Effects,
                 sprite.Depth);
+        }
+
+        private void DrawTokenTypeComponent(ECSEntity entity)
+        {
+            Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
+            TokenTypeComponent token = entity.GetComponent<TokenTypeComponent>();
+
+            this.Batch.DrawString(token.Font,token.Image, object2D.Position, Color.Black);
         }
 
         private void DrawRendererComponent(ECSEntity entity)

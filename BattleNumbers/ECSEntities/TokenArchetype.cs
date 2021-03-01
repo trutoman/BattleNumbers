@@ -15,7 +15,7 @@ namespace BattleNumbers.ECSComponents
                 typeof(TokenTypeComponent),
                 typeof(Transform2DComponent),
                 typeof(Interaction2DComponent),
-                typeof(RendererComponent)
+                typeof(AnimatedSpriteComponent)
             })
         { }
 
@@ -28,8 +28,7 @@ namespace BattleNumbers.ECSComponents
             animation.Play(data.InitSequence);
             Vector2 initialSize = new Vector2(animation.CurrentAnimation.CurrentFrame.Width, animation.CurrentAnimation.CurrentFrame.Height);
 
-
-            entity.AttachComponent(new TokenTypeComponent());
+            entity.AttachComponent((TokenTypeComponent)args[4]);
             entity.AttachComponent(new Transform2DComponent((Vector2)args[2], (Vector2)args[3], initialSize));
             entity.AttachComponent(new Interaction2DComponent());
             entity.AttachComponent(animation);

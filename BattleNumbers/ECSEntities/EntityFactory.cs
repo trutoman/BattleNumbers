@@ -46,12 +46,10 @@ namespace BattleNumbers.ECSEntities
             return entity;
         }
 
-        public ECSEntity CreateTokenEntity(Vector2 position, Vector2 limits, Texture2D sheet, SpriteData.SpriteData sheetData)
+        public ECSEntity CreateTokenEntity(TokenTypeComponent token, Vector2 position, Vector2 limits, Texture2D sheet, SpriteData.SpriteData sheetData)
         {
-
-            ECSEntity entity = World.CreateEntity(new TokenArchetype(), sheet, sheetData, position, limits);
-
-            TokenTypeComponent token = entity.GetComponent<TokenTypeComponent>();
+            ECSEntity entity = World.CreateEntity(new TokenArchetype(), sheet, sheetData, position, limits, token);
+            
             Transform2DComponent transform = entity.GetComponent<Transform2DComponent>();
             Interaction2DComponent interaction = entity.GetComponent<Interaction2DComponent>();
             AnimatedSpriteComponent animation = entity.GetComponent<AnimatedSpriteComponent>();

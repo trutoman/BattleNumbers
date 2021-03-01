@@ -72,6 +72,7 @@ namespace BattleNumbers.Scene
             //ECSEntity entity = entityFactory.CreateRenderEntity(new Point(0, 0), gameContent.background);
             //ECSEntity entity2 = entityFactory.CreateAnimatedSpriteEntity(new Point(100, 100), gameContent.daiManjiSheet, gameContent.daiManjiData);
             ECSEntity entity3 = entityFactory.CreateTokenEntity(
+                new TokenTypeComponent(77, gameContent.baseFont),
                 new Vector2(100,100), 
                 new Vector2(world.Game.VirtualWidth, world.Game.VirtualHeight), 
                 gameContent.daiManjiSheet, 

@@ -68,9 +68,9 @@ namespace BattleNumbers.ECSSystems
         {
             //this.Batch.Begin();
             this.Batch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, this.World.Game.SceneManager.Scale);
+
             foreach (ECSEntity entity in this.Entities)
             {
-
                 if (entity.HasComponent<RendererComponent>())
                 {
                     DrawRendererComponent(entity);
@@ -83,12 +83,14 @@ namespace BattleNumbers.ECSSystems
 
                 else if (entity.HasComponent<AnimatedSpriteComponent>())
                 {
-                    DrawAnimatedSpriteComponent(entity);
-                }
-                
-                if (entity.HasComponent<TokenTypeComponent>())
-                {
-                    DrawTokenTypeComponent(entity);
+                    if (entity.HasComponent<TokenTypeComponent>())
+                    {
+                        DrawTokenType(entity);
+                    }
+                    else
+                    {
+                        DrawAnimatedSpriteComponent(entity);
+                    }
                 }
             }
             this.Batch.End();
@@ -136,12 +138,30 @@ namespace BattleNumbers.ECSSystems
                 sprite.Depth);
         }
 
-        private void DrawTokenTypeComponent(ECSEntity entity)
+        private void DrawTokenType(ECSEntity entity)
         {
+            string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
             TokenTypeComponent token = entity.GetComponent<TokenTypeComponent>();
+            AnimatedSpriteComponent sprite = entity.GetComponent<AnimatedSpriteComponent>();
 
-            this.Batch.DrawString(token.Font,token.Image, object2D.Position, Color.Black);
+            var region = sprite.TextureRegion;
+
+            Debug.Print($"{currentMethodName} - {object2D.ToString()}");
+
+            this.Batch.Draw(
+                region.Texture,
+                object2D.TopLeftCornerPosition,
+                region.Bounds,
+                sprite.Color,
+                object2D.Rotation,
+                origin: Vector2.Zero,
+                object2D.Scale,
+                sprite.Effects,
+                0);
+
+            this.Batch.DrawString(token.Font, token.Image, object2D.Position, Color.Black, object2D.Rotation, origin: Vector2.Zero, object2D.Scale, sprite.Effects, 1);
         }
 
         private void DrawRendererComponent(ECSEntity entity)

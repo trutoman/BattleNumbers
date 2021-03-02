@@ -8,23 +8,23 @@ namespace BattleNumbers.ECS
     public class ECSWorld
     {
         public BattleNumbers Game { get; set; }
-        private Dictionary<int, ECSEntity> entities;
-        private Dictionary<Type, ECSSystem> systems;
+        private Dictionary<int, ECSEntity> Entities;
+        private Dictionary<Type, ECSSystem> Systems;
         private List<int> toDelete;
         private int currentId = 0;
 
         public ECSWorld(BattleNumbers game)
         {
             this.Game = game;
-            this.entities = new Dictionary<int, ECSEntity>();
-            this.systems = new Dictionary<Type, ECSSystem>();
+            this.Entities = new Dictionary<int, ECSEntity>();
+            this.Systems = new Dictionary<Type, ECSSystem>();
             this.toDelete = new List<int>();
         }
 
         public ECSEntity CreateEntity()
         {
             ECSEntity entity = new ECSEntity(currentId++);
-            entities[entity.Id] = entity;
+            Entities[entity.Id] = entity;
             return entity;
         }
 
@@ -32,7 +32,7 @@ namespace BattleNumbers.ECS
         {
             ECSEntity entity = new ECSEntity(currentId++);
             archetype.CreateEntity(entity, args);            
-            entities[entity.Id] = entity;
+            Entities[entity.Id] = entity;
             return entity;
         }
 
@@ -43,28 +43,28 @@ namespace BattleNumbers.ECS
 
         public ECSEntity GetEntityById(int id)
         {
-            return entities[id];
+            return Entities[id];
         }
 
         public bool EntityExists(int id)
         {
-            return entities.ContainsKey(id);
+            return Entities.ContainsKey(id);
         }
 
         public void AddSystem(ECSSystem system)
         {
-            systems[system.GetType()] = system;
+            Systems[system.GetType()] = system;
             system.BindWorld(this);
         }
 
         public T GetSystem<T>() where T : ECSSystem
         {
-            return (T)systems[typeof(T)];
+            return (T)Systems[typeof(T)];
         }
 
         public void Update(GameTime gameTime)
         {
-            foreach (ECSSystem system in systems.Values)
+            foreach (ECSSystem system in Systems.Values)
             {
                 system.UpdateAll(gameTime);
             }
@@ -75,7 +75,7 @@ namespace BattleNumbers.ECS
         {
             IDrawSystem drawableObject;
 
-            foreach (ECSSystem system in systems.Values)
+            foreach (ECSSystem system in Systems.Values)
             {
                 if (system is IDrawSystem)
                 {
@@ -93,19 +93,19 @@ namespace BattleNumbers.ECS
                 if (!EntityExists(id)) //safeguard against deleting twice
                     continue;
 
-                foreach (ECSSystem system in systems.Values)
+                foreach (ECSSystem system in Systems.Values)
                 {
                     system.DeleteEntity(id);
                 }
 
-                entities.Remove(id);
+                Entities.Remove(id);
             }
             toDelete.Clear();
         }
 
         private void UpdateEntityRegistration(ECSEntity entity)
         {
-            foreach (ECSSystem system in systems.Values)
+            foreach (ECSSystem system in Systems.Values)
             {
                 system.UpdateEntityRegistration(entity);
             }

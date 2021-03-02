@@ -56,3 +56,20 @@
 /processor:PassThroughProcessor
 /build:sprites/DaiManji_Data.xml
 
+#begin sprites/TokenSprite.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=221,0,204,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/TokenSprite.png
+
+#begin sprites/TokenSprite_Data.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:sprites/TokenSprite_Data.xml
+

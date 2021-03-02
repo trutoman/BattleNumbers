@@ -71,12 +71,20 @@ namespace BattleNumbers.Scene
             // Create and register entities
             //ECSEntity entity = entityFactory.CreateRenderEntity(new Point(0, 0), gameContent.background);
             //ECSEntity entity2 = entityFactory.CreateAnimatedSpriteEntity(new Point(100, 100), gameContent.daiManjiSheet, gameContent.daiManjiData);
+
             ECSEntity entity3 = entityFactory.CreateTokenEntity(
                 new TokenTypeComponent(77, gameContent.baseFont),
-                new Vector2(100,100), 
-                new Vector2(world.Game.VirtualWidth, world.Game.VirtualHeight), 
-                gameContent.daiManjiSheet, 
+                new Vector2(100, 100),
+                new Vector2(world.Game.VirtualWidth, world.Game.VirtualHeight),
+                gameContent.daiManjiSheet,
                 gameContent.daiManjiData);
+
+            ECSEntity entity4 = entityFactory.CreateTokenEntity(
+                new TokenTypeComponent(66, gameContent.baseFont),
+                new Vector2(300, 300),
+                new Vector2(world.Game.VirtualWidth, world.Game.VirtualHeight),
+                gameContent.tokenSheet,
+                gameContent.tokenData);
 
             string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
             Debug.Print($"{currentMethodName} finally {entity3.GetComponent<Transform2DComponent>()}");
@@ -85,6 +93,9 @@ namespace BattleNumbers.Scene
             //renderedSystem.UpdateEntityRegistration(entity2);
             renderedSystem.UpdateEntityRegistration(entity3);
             interactionSystem.UpdateEntityRegistration(entity3);
+
+            renderedSystem.UpdateEntityRegistration(entity4);
+            interactionSystem.UpdateEntityRegistration(entity4);
         }
 
         public void UnloadContent()

@@ -75,16 +75,7 @@ namespace BattleNumbers.ECS
             requiredComponents.Add(componentList);
         }
 
-        public virtual void UpdateAll(GameTime gametime)
-        {
-            foreach (ECSEntity entity in Entities)
-            {
-                UpdateEntityRegistration(entity);
-                Update(entity, gametime);
-            }
-        }
-
-        protected abstract void Update(ECSEntity entity, GameTime gametime);
+        public abstract void Update(GameTime gametime);
 
         public virtual void DeleteEntity(int id)
         {

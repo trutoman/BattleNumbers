@@ -66,7 +66,7 @@ namespace BattleNumbers.ECS
         {
             foreach (ECSSystem system in Systems.Values)
             {
-                system.UpdateAll(gameTime);
+                system.Update(gameTime);
             }
             Flush();
         }

@@ -14,11 +14,14 @@ namespace BattleNumbers.ECSSystems
     {
         private MouseState CurrentMouseState;
         private MouseState PreviousMouseState;
+        private bool OnlyOneDragedElement;
+        private bool OneDraged = false;
 
         // Rozdelit na mouse interaction a keyboard interaction system
-        public InteractionSystem(ECSWorld world)
+        public InteractionSystem(ECSWorld world, bool OnlyOneDragedElement)
         {
             this.BindWorld(world);
+            this.OnlyOneDragedElement = OnlyOneDragedElement;
         }
 
         public void Begin()
@@ -56,11 +59,14 @@ namespace BattleNumbers.ECSSystems
             PreviousMouseState = CurrentMouseState;
         }
 
-        protected override void Update(ECSEntity entity, GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             Begin();
-
-            Process(entity);
+            
+            foreach (ECSEntity entity in Entities)
+            {
+                Process(entity);
+            }
 
             End();
         }
@@ -119,7 +125,7 @@ namespace BattleNumbers.ECSSystems
 
         private bool CheckPress(Transform2DComponent transform, Interaction2DComponent interaction)
         {
-            if (!interaction.IsPressed && IsEntityPressed(transform, CurrentMouseState))
+            if (!interaction.IsPressed && IsEntityPressed(transform, CurrentMouseState) && IsMouseReleased(PreviousMouseState))
             {
                 return true;
             }
@@ -136,8 +142,8 @@ namespace BattleNumbers.ECSSystems
         }
 
         private bool CheckReleaseNotHovered(Transform2DComponent transform, Interaction2DComponent interaction)
-        {
-            if (IsMousePressed(PreviousMouseState) && !IsMousePressed(CurrentMouseState))
+        {           
+            if (IsMousePressed(PreviousMouseState) && !IsMousePressed(CurrentMouseState) && interaction.IsPressed)
             {
                 return true;
             }
@@ -169,6 +175,10 @@ namespace BattleNumbers.ECSSystems
             if (!interaction.IsDraged && IsEntityPressed(transform, CurrentMouseState)
                 && IsMouseReleased(PreviousMouseState))
             {
+                if (this.OnlyOneDragedElement)
+                {
+                    this.OneDraged = true;
+                }
                 return true;
             }
 
@@ -176,9 +186,9 @@ namespace BattleNumbers.ECSSystems
         }
 
 
-        public bool CheckDragOver(Transform2DComponent transform, Interaction2DComponent interacton)
+        public bool CheckDragOver(Transform2DComponent transform, Interaction2DComponent interaction)
         {
-            if (interacton.IsDraged && !IsEntityPressed(transform, CurrentMouseState) &&
+            if (interaction.IsDraged && !IsEntityPressed(transform, CurrentMouseState) &&
                 IsMousePressed(CurrentMouseState))
             {
                 return true;
@@ -191,6 +201,10 @@ namespace BattleNumbers.ECSSystems
         {
             if (interaction.IsDraged && IsMouseReleased(CurrentMouseState))
             {
+                if (this.OnlyOneDragedElement)
+                {
+                    this.OneDraged = false;
+                }
                 return true;
             }
 

@@ -23,44 +23,48 @@ namespace BattleNumbers.ECSSystems
         }
 
         // This method Update individual entities registered
-        protected override void Update(ECSEntity entity, GameTime gametime)
+        public override void Update(GameTime gametime)
         {
-            if (entity.HasComponent<AnimatedSpriteComponent>())
+            foreach (ECSEntity entity in Entities)
             {
-                AnimatedSpriteComponent animatedSprite = entity.GetComponent<AnimatedSpriteComponent>();
-
-                if (animatedSprite.CurrentAnimation != null && !animatedSprite.CurrentAnimation.IsComplete)
+                UpdateEntityRegistration(entity);
+                if (entity.HasComponent<AnimatedSpriteComponent>())
                 {
-                    animatedSprite.CurrentAnimation.Update(gametime);
-                    animatedSprite.SetTextureRegion(animatedSprite.CurrentAnimation.CurrentFrame);
+                    AnimatedSpriteComponent animatedSprite = entity.GetComponent<AnimatedSpriteComponent>();
+
+                    if (animatedSprite.CurrentAnimation != null && !animatedSprite.CurrentAnimation.IsComplete)
+                    {
+                        animatedSprite.CurrentAnimation.Update(gametime);
+                        animatedSprite.SetTextureRegion(animatedSprite.CurrentAnimation.CurrentFrame);
+                    }
+                    // Sprite bounds is variable so everytime we updated sprite we update also transform2d components bounds
+                    // transform2D component bounds is the rectangle we will use to draw sprite at Draw method.
+
+                    if (animatedSprite.CurrentAnimation.FrameHasChanged)
+                    {
+                        Transform2DComponent Object2D = entity.GetComponent<Transform2DComponent>();
+
+                        Object2D.Size = new Vector2(
+                            entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Width,
+                            entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Height);
+
+                        string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+                        Debug.Print($"{currentMethodName} finally {Object2D}");
+                    }
                 }
-                // Sprite bounds is variable so everytime we updated sprite we update also transform2d components bounds
-                // transform2D component bounds is the rectangle we will use to draw sprite at Draw method.
-
-                if (animatedSprite.CurrentAnimation.FrameHasChanged)
+                else if (entity.HasComponent<RendererComponent>())
                 {
-                    Transform2DComponent Object2D = entity.GetComponent<Transform2DComponent>();                    
 
+                }
+                else if (entity.HasComponent<SpriteComponent>())
+                {
+                    // Sprite bounds is variable so everytime we updated sprite we update also transform2d components bounds
+                    // transform2D component bounds is the rectangle we will use to draw sprite at Draw method.
+                    Transform2DComponent Object2D = entity.GetComponent<Transform2DComponent>();
                     Object2D.Size = new Vector2(
                         entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Width,
                         entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Height);
-
-                    string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
-                    Debug.Print($"{currentMethodName} finally {Object2D}");
                 }
-            }
-            else if (entity.HasComponent<RendererComponent>())
-            {
-
-            }
-            else if (entity.HasComponent<SpriteComponent>())
-            {
-                // Sprite bounds is variable so everytime we updated sprite we update also transform2d components bounds
-                // transform2D component bounds is the rectangle we will use to draw sprite at Draw method.
-                Transform2DComponent Object2D = entity.GetComponent<Transform2DComponent>();
-                Object2D.Size = new Vector2(
-                    entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Width,
-                    entity.GetComponent<AnimatedSpriteComponent>().CurrentAnimation.CurrentFrame.Height);
             }
         }
 

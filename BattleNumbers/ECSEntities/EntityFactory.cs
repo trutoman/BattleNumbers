@@ -58,7 +58,7 @@ namespace BattleNumbers.ECSEntities
             // due to time or performance settings sometimes fast movement when dragged an object            
             // produces a IsDragged = false 
             interaction.ReleaseNotHovered += TokenEntityReleaseNotHoveredHandler;
-            interaction.Press += TokenEntityPressHandler;            
+            interaction.Press += TokenEntityPressHandler;
             interaction.Move += TokenEntityMoveHandler;
             interaction.DragStart += TokenEntityDragStartHandler;
 
@@ -120,7 +120,6 @@ namespace BattleNumbers.ECSEntities
             Interaction2DComponent interaction = entity.GetComponent<Interaction2DComponent>();
 
             interaction.RelativePressedPoint = new Point(e.MouseState.Position.X - (int)object2D.Position.X, e.MouseState.Position.Y - (int)object2D.Position.Y);
-
             
             Debug.Print($"{currentMethodName} finally {object2D}");
         }

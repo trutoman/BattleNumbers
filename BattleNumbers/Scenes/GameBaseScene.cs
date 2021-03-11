@@ -60,7 +60,7 @@ namespace BattleNumbers.Scene
             // Create world with systems
             world = new ECSWorld(this.myGame);
             ECSSystem renderedSystem = new RendererSystem(world);
-            ECSSystem interactionSystem = new InteractionSystem(world);
+            ECSSystem interactionSystem = new InteractionSystem(world, OnlyOneDragedElement:true);
             world.AddSystem(renderedSystem);
             world.AddSystem(interactionSystem);
 

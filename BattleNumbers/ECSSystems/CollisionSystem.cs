@@ -1,5 +1,6 @@
 ﻿using BattleNumbers.ECS;
 using BattleNumbers.ECSComponents;
+using BattleNumbers.LogService;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,8 @@ namespace BattleNumbers.ECSSystems
 
             if (mainRect.Intersects(otherRect))
             {
+                LogService.LogService log = (LogService.LogService)this.World.Game.Services.GetService(typeof(ILogService));
+                log.Log("Collision");
                 Rectangle result = Rectangle.Intersect(mainRect, otherRect);
             }
         }

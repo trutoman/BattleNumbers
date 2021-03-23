@@ -1,4 +1,5 @@
-﻿using BattleNumbers.Scene;
+﻿using BattleNumbers.LogService;
+using BattleNumbers.Scene;
 using BattleNumbers.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,6 +14,7 @@ namespace BattleNumbers
 
         public GraphicsDeviceManager graphics;                
         public SceneManager SceneManager { get; set; }
+        public LogService.LogService logService;
 
         public BattleNumbers() : base()
         {
@@ -33,6 +35,11 @@ namespace BattleNumbers
 
             this.SceneManager = new SceneManager(this, VirtualWidth, VirtualHeight);
             Components.Add(SceneManager);
+
+            // Creating Drawable Log service and drawable component
+            Components.Add(logService = new LogService.LogService(this));
+            Services.AddService(typeof(ILogService), logService);
+
             base.Initialize();
         }
 

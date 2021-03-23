@@ -1,6 +1,7 @@
 ﻿using BattleNumbers.ECS;
 using BattleNumbers.ECSComponents;
 using BattleNumbers.ECSComponents.Sprite;
+using BattleNumbers.LogService;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -17,6 +18,8 @@ namespace BattleNumbers.ECSSystems
         {
             this.BindWorld(world);
             this.Batch = new SpriteBatch(this.World.Game.GraphicsDevice);
+            LogService.LogService log = (LogService.LogService)this.World.Game.Services.GetService(typeof(ILogService));
+            log.setSpriteBatch(Batch);
             AddRequiredComponents(new List<Type>() { typeof(Transform2DComponent), typeof(RendererComponent) });
             AddRequiredComponents(new List<Type>() { typeof(Transform2DComponent), typeof(SpriteComponent) });
             AddRequiredComponents(new List<Type>() { typeof(Transform2DComponent), typeof(AnimatedSpriteComponent) });
@@ -165,7 +168,16 @@ namespace BattleNumbers.ECSSystems
                 sprite.Effects,
                 0);
 
-            this.Batch.DrawString(token.Font, token.Image, object2D.Position, Color.Black, object2D.Rotation, origin: Vector2.Zero, object2D.Scale, sprite.Effects, 1);
+            this.Batch.DrawString(
+                token.Font, 
+                token.Image, 
+                object2D.Position, 
+                Color.Black, 
+                object2D.Rotation, 
+                origin: Vector2.Zero, 
+                object2D.Scale, 
+                sprite.Effects, 
+                1);
         }
 
         private void DrawRendererComponent(ECSEntity entity)

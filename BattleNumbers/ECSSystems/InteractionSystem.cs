@@ -10,7 +10,7 @@ using static BattleNumbers.ECSComponents.Interaction2DComponent;
 
 namespace BattleNumbers.ECSSystems
 {
-    public class InteractionSystem : ECSSystem
+    public class InteractionSystem : ECSSystem, IUpdateSystem
     {
         private MouseState CurrentMouseState;
         private MouseState PreviousMouseState;
@@ -65,9 +65,12 @@ namespace BattleNumbers.ECSSystems
             
             foreach (ECSEntity entity in Entities)
             {
-                Process(entity);
+                if (entity.HasComponent<Transform2DComponent>() &&
+                    entity.HasComponent<Interaction2DComponent>())
+                {
+                    Process(entity);
+                }
             }
-
             End();
         }
 

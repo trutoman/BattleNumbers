@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static BattleNumbers.ECSComponents.CollisionComponent;
 
 namespace BattleNumbers.ECSComponents
 {
@@ -15,7 +16,8 @@ namespace BattleNumbers.ECSComponents
                 typeof(TokenTypeComponent),
                 typeof(Transform2DComponent),
                 typeof(Interaction2DComponent),
-                typeof(AnimatedSpriteComponent)
+                typeof(AnimatedSpriteComponent),
+                typeof(CollisionComponent)
             })
         { }
 
@@ -25,6 +27,7 @@ namespace BattleNumbers.ECSComponents
             SpriteData.SpriteData data = (SpriteData.SpriteData)args[1];
             SpriteSheet spriteSheet = new SpriteSheet(data, texture);
             AnimatedSpriteComponent animation = new AnimatedSpriteComponent(spriteSheet);
+            CollisionComponent collision = new CollisionComponent(ColliderType.rigid);
             animation.Play(data.InitSequence);
             Vector2 initialSize = new Vector2(animation.CurrentAnimation.CurrentFrame.Width, animation.CurrentAnimation.CurrentFrame.Height);
 
@@ -32,6 +35,7 @@ namespace BattleNumbers.ECSComponents
             entity.AttachComponent(new Transform2DComponent((Vector2)args[2], (Vector2)args[3], initialSize));
             entity.AttachComponent(new Interaction2DComponent());
             entity.AttachComponent(animation);
+            entity.AttachComponent(collision);
 
             return entity;
         }

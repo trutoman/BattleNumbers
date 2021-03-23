@@ -61,8 +61,10 @@ namespace BattleNumbers.Scene
             world = new ECSWorld(this.myGame);
             ECSSystem renderedSystem = new RendererSystem(world);
             ECSSystem interactionSystem = new InteractionSystem(world, OnlyOneDragedElement:true);
+            ECSSystem collisionSystem = new CollisionSystem(world);
             world.AddSystem(renderedSystem);
             world.AddSystem(interactionSystem);
+            world.AddSystem(collisionSystem);
 
             // Create a entity factory
             EntityFactory entityFactory = new EntityFactory();
@@ -93,9 +95,12 @@ namespace BattleNumbers.Scene
             //renderedSystem.UpdateEntityRegistration(entity2);
             renderedSystem.UpdateEntityRegistration(entity3);
             interactionSystem.UpdateEntityRegistration(entity3);
+            collisionSystem.UpdateEntityRegistration(entity3);
 
             renderedSystem.UpdateEntityRegistration(entity4);
             interactionSystem.UpdateEntityRegistration(entity4);
+            collisionSystem.UpdateEntityRegistration(entity4);
+
         }
 
         public void UnloadContent()

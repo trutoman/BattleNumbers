@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace BattleNumbers.ECSSystems
 {
-    public class RendererSystem : ECSSystem, IDrawSystem
+    public class RendererSystem : ECSSystem, IDrawSystem, IUpdateSystem
     {
         private readonly SpriteBatch Batch;
 

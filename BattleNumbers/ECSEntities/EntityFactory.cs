@@ -53,6 +53,7 @@ namespace BattleNumbers.ECSEntities
             Transform2DComponent transform = entity.GetComponent<Transform2DComponent>();
             Interaction2DComponent interaction = entity.GetComponent<Interaction2DComponent>();
             AnimatedSpriteComponent animation = entity.GetComponent<AnimatedSpriteComponent>();
+            CollisionComponent collision = entity.GetComponent<CollisionComponent>();
             
             // Using Release event in place of dragover because of : 
             // due to time or performance settings sometimes fast movement when dragged an object            

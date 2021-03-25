@@ -6,7 +6,8 @@ namespace BattleNumbers.LogService
 {
     interface ILogService
     {
-        void Log(string text);
+        void Activate(bool activation);
+        void AddText(string text);
         
     }
 }

@@ -40,7 +40,7 @@ namespace BattleNumbers.ECSSystems
             if (mainRect.Intersects(otherRect))
             {
                 LogService.LogService log = (LogService.LogService)this.World.Game.Services.GetService(typeof(ILogService));
-                log.Log("Collision");
+                log.AddText("Collision");
                 Rectangle result = Rectangle.Intersect(mainRect, otherRect);
             }
         }

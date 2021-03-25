@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BattleNumbers.ECS;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -6,59 +7,44 @@ using System.Text;
 
 namespace BattleNumbers.LogService
 {
-    public class LogService : DrawableGameComponent, ILogService
+    public class LogService : ILogService
     {
         BattleNumbers game;
-        SpriteBatch spriteBatch;
-        string text;
-        SpriteFont font;        
+        public bool active { get; set; }
+        public string text { get; set; }        
+        public SpriteFont font { get; set; }
+        public int entityId { get; set; }
 
-        public LogService(BattleNumbers game) : base(game)
+        public LogService(BattleNumbers game)
         {
-            this.game = game;
+            game = game;
+            text = string.Empty;
+            active = false;
+        }
+
+        public void Initialize(SpriteFont font)
+        {
+            this.active = true;
+            this.font = font;
+        }
+
+        public void RegisterEntity(int id)
+        {
+            entityId = id;
+        }
+
+        public void Clean()
+        {
             this.text = string.Empty;
-            spriteBatch = (SpriteBatch)game.Services.GetService(typeof(SpriteBatch));
-            font = game.Content.Load<SpriteFont>("fonts/AliensAmongUs");            
         }
 
-        public void setSpriteBatch(SpriteBatch batch)
+        public void AddText(string text)
         {
-            spriteBatch = batch;
+            this.text = this.text + text;
         }
-
-        public override void Initialize()
-        { }
-
-        protected override void LoadContent()
-        { }
-
-        public override void Update(GameTime gameTime)
+        public void Activate(bool activation)
         {
-            
-            base.Update(gameTime);
-        }
-
-        public void Log(string text)
-        {
-            this.text = text;
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, this.game.SceneManager.Scale);
-            this.spriteBatch.DrawString(
-                font,
-                text,
-                new Vector2(0,0),
-                Color.White,
-                0,
-                origin: Vector2.Zero,
-                1,
-                SpriteEffects.None,
-                1);
-            spriteBatch.End();
-
-            base.Draw(gameTime);
+            active = activation;
         }
     }
 }

@@ -21,6 +21,13 @@
 /processorParam:TextureFormat=Compressed
 /build:fonts/AliensAmongUs.spritefont
 
+#begin fonts/Arial.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/Arial.spritefont
+
 #begin images/external.jpg
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -13,6 +13,7 @@ namespace BattleNumbers
         public SpriteData.SpriteData tokenData { get; set; }
         public SoundEffect clickSound { get; set; }
         public SpriteFont baseFont { get; set; }
+        public SpriteFont arialFont { get; set; }
 
         public GameContent(ContentManager Content)
         {
@@ -31,6 +32,7 @@ namespace BattleNumbers
 
             //load fonts
             baseFont = Content.Load<SpriteFont>("fonts/AliensAmongUs");
+            arialFont = Content.Load<SpriteFont>("fonts/Arial");
         }
     }
 }

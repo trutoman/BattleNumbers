@@ -21,6 +21,13 @@ namespace BattleNumbers.ECSEntities
             this.Content = gameContent;
         }
 
+        public ECSEntity CreateTextEntity(SpriteFont font)
+        {
+            ECSEntity entity = World.CreateEntity(new TextRenderArchetype(), font);
+
+            return entity;
+        }
+
         public ECSEntity CreateRenderEntity(Point position, Texture2D texture)
         {
             ECSEntity entity = World.CreateEntity(new RenderArchetype(), texture);
@@ -30,6 +37,8 @@ namespace BattleNumbers.ECSEntities
 
             return entity;
         }
+
+
 
         public ECSEntity CreateAnimatedSpriteEntity(Point position, Texture2D sheet, SpriteData.SpriteData sheetData)
         {

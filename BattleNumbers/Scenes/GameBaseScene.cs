@@ -3,6 +3,7 @@ using BattleNumbers.ECSComponents;
 using BattleNumbers.ECSComponents.Sprite;
 using BattleNumbers.ECSEntities;
 using BattleNumbers.ECSSystems;
+using BattleNumbers.LogService;
 using BattleNumbers.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,6 +17,7 @@ namespace BattleNumbers.Scene
     {
         private BattleNumbers myGame;
         private ECSWorld world;
+        private LogService.LogService Log;
 
         public event EventHandler<EventArgs> EnabledChanged;
         public event EventHandler<EventArgs> UpdateOrderChanged;
@@ -52,14 +54,20 @@ namespace BattleNumbers.Scene
             this.myGame = game;
             this.Enabled = true;
             this.isPaused = false;
+
+            // Creating Log service
+            Log = new LogService.LogService(myGame);
+            myGame.Services.AddService(typeof(ILogService), Log);
+            Log = (LogService.LogService)game.Services.GetService(typeof(ILogService));            
         }
+
         public void LoadContent()
         {
-            GameContent gameContent = new GameContent(this.myGame.Content);
+            GameContent gameContent = new GameContent(this.myGame.Content);            
 
             // Create world with systems
             world = new ECSWorld(this.myGame);
-            ECSSystem renderedSystem = new RendererSystem(world);
+            ECSSystem renderedSystem = new RendererSystem(world, Log);
             ECSSystem interactionSystem = new InteractionSystem(world, OnlyOneDragedElement:true);
             ECSSystem collisionSystem = new CollisionSystem(world);
             world.AddSystem(renderedSystem);
@@ -70,9 +78,14 @@ namespace BattleNumbers.Scene
             EntityFactory entityFactory = new EntityFactory();
             entityFactory.LoadContent(world, gameContent);
 
-            // Create and register entities
+            //Create and register entities
             //ECSEntity entity = entityFactory.CreateRenderEntity(new Point(0, 0), gameContent.background);
             //ECSEntity entity2 = entityFactory.CreateAnimatedSpriteEntity(new Point(100, 100), gameContent.daiManjiSheet, gameContent.daiManjiData);
+            
+            // Init service and its component
+            Log.Initialize(gameContent.arialFont);
+            ECSEntity logEntity = entityFactory.CreateTextEntity(Log.font);
+            Log.RegisterEntity(logEntity.Id);
 
             ECSEntity entity3 = entityFactory.CreateTokenEntity(
                 new TokenTypeComponent(77, gameContent.baseFont),
@@ -91,8 +104,10 @@ namespace BattleNumbers.Scene
             string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
             Debug.Print($"{currentMethodName} finally {entity3.GetComponent<Transform2DComponent>()}");
 
-            //renderedSystem.UpdateEntityRegistration(entity);
+            renderedSystem.UpdateEntityRegistration(logEntity);
+            
             //renderedSystem.UpdateEntityRegistration(entity2);
+            
             renderedSystem.UpdateEntityRegistration(entity3);
             interactionSystem.UpdateEntityRegistration(entity3);
             collisionSystem.UpdateEntityRegistration(entity3);

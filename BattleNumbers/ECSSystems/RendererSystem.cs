@@ -13,16 +13,19 @@ namespace BattleNumbers.ECSSystems
     public class RendererSystem : ECSSystem, IDrawSystem, IUpdateSystem
     {
         private readonly SpriteBatch Batch;
+        LogService.LogService Log;
 
-        public RendererSystem(ECSWorld world)
+        public RendererSystem(ECSWorld world, LogService.LogService log)
         {
             this.BindWorld(world);
             this.Batch = new SpriteBatch(this.World.Game.GraphicsDevice);
-            LogService.LogService log = (LogService.LogService)this.World.Game.Services.GetService(typeof(ILogService));
-            log.setSpriteBatch(Batch);
+
+            Log = log;
+
             AddRequiredComponents(new List<Type>() { typeof(Transform2DComponent), typeof(RendererComponent) });
             AddRequiredComponents(new List<Type>() { typeof(Transform2DComponent), typeof(SpriteComponent) });
             AddRequiredComponents(new List<Type>() { typeof(Transform2DComponent), typeof(AnimatedSpriteComponent) });
+            AddRequiredComponents(new List<Type>() { typeof(TextRenderComponent) });
         }
 
         // This method Update individual entities registered
@@ -99,9 +102,42 @@ namespace BattleNumbers.ECSSystems
                         DrawAnimatedSpriteComponent(entity);
                     }
                 }
+
+                else if (entity.HasComponent<TextRenderComponent>())
+                {
+                    if (entity.Id == Log.entityId)
+                    {
+                        if (Log.active)
+                        {
+                            DrawTextComponent(entity);
+                        }
+                    }
+                    else
+                    {
+                        DrawTextComponent(entity);
+                    }
+                }
             }
             this.Batch.End();
         }
+        private void DrawTextComponent(ECSEntity entity)
+        {
+            TextRenderComponent text = entity.GetComponent<TextRenderComponent>();
+
+            Vector2 drawPosition = new Vector2(0, 0);
+
+            this.Batch.DrawString(
+                text.Font,
+                Log.text,
+                drawPosition,
+                text.Color,
+                0,
+                origin: Vector2.Zero,
+                1,
+                SpriteEffects.None,
+                1);
+        }
+
         private void DrawAnimatedSpriteComponent(ECSEntity entity)
         {
             string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
@@ -169,14 +205,14 @@ namespace BattleNumbers.ECSSystems
                 0);
 
             this.Batch.DrawString(
-                token.Font, 
-                token.Image, 
-                object2D.Position, 
-                Color.Black, 
-                object2D.Rotation, 
-                origin: Vector2.Zero, 
-                object2D.Scale, 
-                sprite.Effects, 
+                token.Font,
+                token.Image,
+                object2D.Position,
+                Color.Black,
+                object2D.Rotation,
+                origin: Vector2.Zero,
+                object2D.Scale,
+                sprite.Effects,
                 1);
         }
 

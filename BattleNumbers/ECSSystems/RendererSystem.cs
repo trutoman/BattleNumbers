@@ -77,7 +77,7 @@ namespace BattleNumbers.ECSSystems
         public void Draw(GameTime gameTime)
         {
             //this.Batch.Begin();
-            this.Batch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, this.World.Game.SceneManager.Scale);
+            this.Batch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, this.World.Game.SceneManager.Scale);            
 
             foreach (ECSEntity entity in this.Entities)
             {

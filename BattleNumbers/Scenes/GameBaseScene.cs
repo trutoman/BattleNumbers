@@ -134,6 +134,10 @@ namespace BattleNumbers.Scene
             {
                 if (!this.isPaused)
                 {
+                    if (this.Log.active)
+                    {
+                        Log.Clean();
+                    }
                     Debug.Print("---- UPDATE ------------------------------------");
                     world.Update(gameTime);
                 }

@@ -99,8 +99,12 @@ namespace BattleNumbers.ECSEntities
 
             ECSEntity entity = this.World.GetEntityById(id);
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
+            TokenTypeComponent token = entity.GetComponent<TokenTypeComponent>();
 
-            object2D.Scale = new Vector2(1.15f, 1.15f);            
+            object2D.Scale = new Vector2(1.15f, 1.15f);
+
+            // Set depth to token pressed
+            token.Depth = 0.90f;
 
             Debug.Print($"{currentMethodName} finally {object2D}");
         }
@@ -113,9 +117,13 @@ namespace BattleNumbers.ECSEntities
             ECSEntity entity = this.World.GetEntityById(id);
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
             Interaction2DComponent interaction = entity.GetComponent<Interaction2DComponent>();
+            TokenTypeComponent token = entity.GetComponent<TokenTypeComponent>();
 
             object2D.Position = new Vector2(e.MouseState.Position.X - interaction.RelativePressedPoint.X, e.MouseState.Position.Y - interaction.RelativePressedPoint.Y);            
-            object2D.Scale = new Vector2(1f, 1f);            
+            object2D.Scale = new Vector2(1f, 1f);
+
+            // Set depth to token released
+            token.Depth = 0.5f;
 
             Debug.Print($"{currentMethodName} finally {object2D}");
         }
@@ -129,8 +137,9 @@ namespace BattleNumbers.ECSEntities
             Transform2DComponent object2D = entity.GetComponent<Transform2DComponent>();
             Interaction2DComponent interaction = entity.GetComponent<Interaction2DComponent>();
 
+
             interaction.RelativePressedPoint = new Point(e.MouseState.Position.X - (int)object2D.Position.X, e.MouseState.Position.Y - (int)object2D.Position.Y);
-            
+
             Debug.Print($"{currentMethodName} finally {object2D}");
         }
 

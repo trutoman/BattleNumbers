@@ -17,6 +17,7 @@ namespace BattleNumbers.ECSComponents
     {
         public  SpriteFont Font { set; get; }
         public TokenType Type { set; get; }
+        public float Depth { get; set; }
 
         public string Image { set; get; }
 
@@ -26,11 +27,12 @@ namespace BattleNumbers.ECSComponents
             Font = font;
             Type = type;
             Image = image;
+            Depth = 0.5f;
 
             foreach (var antecesor in antecesors)
             {
                 Antecesors.Add((TokenTypeComponent)antecesor);
-            }
+            }            
         }
 
         public TokenTypeComponent(int number, SpriteFont font)
@@ -39,6 +41,7 @@ namespace BattleNumbers.ECSComponents
             Type = TokenType.Integer;
             Image = number.ToString();
             Antecesors = null;
+            Depth = 0.5f;
         }
     }
 }

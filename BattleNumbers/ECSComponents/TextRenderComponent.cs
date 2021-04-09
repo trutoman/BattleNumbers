@@ -22,7 +22,7 @@ namespace BattleNumbers.ECSComponents
             Text = string.Empty;
             IsVisible = true;
             Color = Color.White;
-            Depth = 0f;
+            Depth = 1f;
             Alpha = 1.0f;
         }
     }

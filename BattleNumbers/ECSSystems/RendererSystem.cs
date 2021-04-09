@@ -77,8 +77,7 @@ namespace BattleNumbers.ECSSystems
         public void Draw(GameTime gameTime)
         {
             //this.Batch.Begin();
-            this.Batch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, this.World.Game.SceneManager.Scale);            
-
+            this.Batch.Begin(SpriteSortMode.FrontToBack, null, null, null, null, null, this.World.Game.SceneManager.Scale);
             foreach (ECSEntity entity in this.Entities)
             {
                 if (entity.HasComponent<RendererComponent>())
@@ -192,6 +191,7 @@ namespace BattleNumbers.ECSSystems
             var region = sprite.TextureRegion;
 
             Debug.Print($"{currentMethodName} - {object2D.ToString()}");
+            Debug.Print($"{currentMethodName} - DEPTH: {token.Depth}");
 
             this.Batch.Draw(
                 region.Texture,
@@ -202,7 +202,7 @@ namespace BattleNumbers.ECSSystems
                 origin: Vector2.Zero,
                 object2D.Scale,
                 sprite.Effects,
-                0);
+                token.Depth);
 
             this.Batch.DrawString(
                 token.Font,
@@ -213,7 +213,7 @@ namespace BattleNumbers.ECSSystems
                 origin: Vector2.Zero,
                 object2D.Scale,
                 sprite.Effects,
-                1);
+                token.Depth + 0.01f);
         }
 
         private void DrawRendererComponent(ECSEntity entity)

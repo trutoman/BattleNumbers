@@ -41,7 +41,7 @@ namespace BattleNumbers.ECSSystems
             {
                 LogService.LogService log = (LogService.LogService)this.World.Game.Services.GetService(typeof(ILogService));
                 Rectangle result = Rectangle.Intersect(mainRect, otherRect);
-                log.AddText($"Collision with W={result.Width.ToString()}, H={result.Height.ToString()}");
+                log.AddNewText($"Collision with W={result.Width.ToString()}, H={result.Height.ToString()}");
             }
         }
 

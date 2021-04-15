@@ -40,8 +40,15 @@ namespace BattleNumbers.LogService
 
         public void AddText(string text)
         {
-            this.text = this.text + text;
+            this.text += text;
         }
+
+        public void AddNewText(string text)
+        {
+            this.text += "\n";
+            AddText(text);
+        }
+
         public void Activate(bool activation)
         {
             active = activation;

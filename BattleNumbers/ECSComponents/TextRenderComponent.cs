@@ -25,5 +25,15 @@ namespace BattleNumbers.ECSComponents
             Depth = 1f;
             Alpha = 1.0f;
         }
+
+        public TextRenderComponent(string text, SpriteFont font)
+        {
+            Font = font;
+            Text = text;
+            IsVisible = true;
+            Color = Color.White;
+            Depth = 1f;
+            Alpha = 1.0f;
+        }
     }
 }

@@ -7,6 +7,7 @@ namespace BattleNumbers.ECS
     {
         public int Id { get; private set; }
         public string Name { get; set; }
+        public Type Archetype { get; set; }
         private Dictionary<Type, IECSComponent> components;
 
         public ECSEntity(int id)

@@ -31,7 +31,8 @@ namespace BattleNumbers.ECS
         public ECSEntity CreateEntity(ECSArchetype archetype, params object[] args)
         {
             ECSEntity entity = new ECSEntity(currentId++);
-            archetype.CreateEntity(entity, args);            
+            archetype.CreateEntity(entity, args);
+            entity.Archetype = archetype.GetType();
             Entities[entity.Id] = entity;
             return entity;
         }

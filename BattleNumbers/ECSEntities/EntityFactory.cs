@@ -21,24 +21,21 @@ namespace BattleNumbers.ECSEntities
             this.Content = gameContent;
         }
 
-        public ECSEntity CreateTextEntity(SpriteFont font)
+        public ECSEntity CreateTextEntity(SpriteFont font, string text, float X, float Y)
         {
-            ECSEntity entity = World.CreateEntity(new TextRenderArchetype(), font);
-
+            ECSEntity entity = World.CreateEntity(new TextRenderArchetype(), font, text, X, Y);
             return entity;
         }
 
         public ECSEntity CreateRenderEntity(Point position, Texture2D texture)
         {
-            ECSEntity entity = World.CreateEntity(new RenderArchetype(), texture);
+            ECSEntity entity = World.CreateEntity(new SpriteArchetype(), texture);
 
             Transform2DComponent transform = entity.GetComponent<Transform2DComponent>();
             transform.Position = new Vector2(position.X, position.Y);
 
             return entity;
         }
-
-
 
         public ECSEntity CreateAnimatedSpriteEntity(Point position, Texture2D sheet, SpriteData.SpriteData sheetData)
         {
@@ -55,9 +52,33 @@ namespace BattleNumbers.ECSEntities
             return entity;
         }
 
+
+        // Create token entity with Texture2D
+        public ECSEntity CreateTokenEntity(TokenTypeComponent token, Vector2 position, Vector2 limits, Texture2D texture)
+        {
+            ECSEntity entity = World.CreateEntity(new TokenImageArchetype(), texture, position, limits, token);
+
+            Transform2DComponent transform = entity.GetComponent<Transform2DComponent>();
+            Interaction2DComponent interaction = entity.GetComponent<Interaction2DComponent>();
+
+            // Using Release event in place of dragover because of : 
+            // due to time or performance settings sometimes fast movement when dragged an object            
+            // produces a IsDragged = false 
+            interaction.ReleaseNotHovered += TokenEntityReleaseNotHoveredHandler;
+            interaction.Press += TokenEntityPressHandler;
+            interaction.Move += TokenEntityMoveHandler;
+            interaction.DragStart += TokenEntityDragStartHandler;
+
+            string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            Debug.Print($"{currentMethodName} finally {transform}");
+
+            return entity;
+        }
+
+        // Create token entity with SpriteData
         public ECSEntity CreateTokenEntity(TokenTypeComponent token, Vector2 position, Vector2 limits, Texture2D sheet, SpriteData.SpriteData sheetData)
         {
-            ECSEntity entity = World.CreateEntity(new TokenArchetype(), sheet, sheetData, position, limits, token);
+            ECSEntity entity = World.CreateEntity(new TokenSpriteArchetype(), sheet, sheetData, position, limits, token);
             
             Transform2DComponent transform = entity.GetComponent<Transform2DComponent>();
             Interaction2DComponent interaction = entity.GetComponent<Interaction2DComponent>();

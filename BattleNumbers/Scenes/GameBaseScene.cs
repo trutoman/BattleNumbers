@@ -84,8 +84,15 @@ namespace BattleNumbers.Scene
             
             // Init service and its component
             Log.Initialize(gameContent.arialFont);
-            ECSEntity logEntity = entityFactory.CreateTextEntity(Log.font);
+            ECSEntity logEntity = entityFactory.CreateTextEntity(Log.font,"", 0,0);
             Log.RegisterEntity(logEntity.Id);
+
+            ECSEntity entity1 = entityFactory.CreateTokenEntity(
+                new TokenTypeComponent(2, gameContent.baseFont),
+                new Vector2(400, 100),
+                new Vector2(world.Game.VirtualWidth, world.Game.VirtualHeight),
+                gameContent.tokenSheet,
+                gameContent.tokenData);
 
             ECSEntity entity3 = entityFactory.CreateTokenEntity(
                 new TokenTypeComponent(77, gameContent.baseFont),
@@ -98,16 +105,19 @@ namespace BattleNumbers.Scene
                 new TokenTypeComponent(66, gameContent.baseFont),
                 new Vector2(300, 300),
                 new Vector2(world.Game.VirtualWidth, world.Game.VirtualHeight),
-                gameContent.tokenSheet,
-                gameContent.tokenData);
+                gameContent.tokenImage);
 
             string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
             Debug.Print($"{currentMethodName} finally {entity3.GetComponent<Transform2DComponent>()}");
 
             renderedSystem.UpdateEntityRegistration(logEntity);
-            
+
             //renderedSystem.UpdateEntityRegistration(entity2);
-            
+
+            renderedSystem.UpdateEntityRegistration(entity1);
+            interactionSystem.UpdateEntityRegistration(entity1);
+            collisionSystem.UpdateEntityRegistration(entity1);
+
             renderedSystem.UpdateEntityRegistration(entity3);
             interactionSystem.UpdateEntityRegistration(entity3);
             collisionSystem.UpdateEntityRegistration(entity3);

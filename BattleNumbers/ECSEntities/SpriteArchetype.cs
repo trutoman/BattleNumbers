@@ -8,20 +8,20 @@ using System.Text;
 
 namespace BattleNumbers.ECSEntities
 {
-    public class RenderArchetype : ECSArchetype
+    public class SpriteArchetype : ECSArchetype
     {
-        public RenderArchetype() :
+        public SpriteArchetype() :
             base(new Type[] {
                 typeof(Transform2DComponent),
-                typeof(RendererComponent)
+                typeof(SpriteComponent)
             })
         { }
 
         public override ECSEntity CreateEntity(ECSEntity entity, params object[] args)
         {
-            Texture2D texture = (Texture2D)args[0];                       
+            TextureRegion2D texture = (TextureRegion2D)args[0];                       
             entity.AttachComponent(new Transform2DComponent());
-            entity.AttachComponent(new RendererComponent(texture));
+            entity.AttachComponent(new SpriteComponent(texture));
             return entity;
         }
     }

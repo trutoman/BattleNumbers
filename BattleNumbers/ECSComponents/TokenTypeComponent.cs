@@ -15,7 +15,7 @@ namespace BattleNumbers.ECSComponents
 
     public class TokenTypeComponent : IECSComponent
     {
-        public  SpriteFont Font { set; get; }
+        public SpriteFont Font { set; get; }
         public TokenType Type { set; get; }
         public float Depth { get; set; }
 

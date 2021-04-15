@@ -69,7 +69,17 @@ namespace BattleNumbers.ECSComponents
 
             Parent = null;
         }
+        public Transform2DComponent(Vector2 position)
+        {
+            Size = Vector2.One;
+            Position = position;
+            Scale = Vector2.One;
+            Rotation = 0;
 
+            this.Limits = Vector2.Zero;
+
+            Parent = null;
+        }
         public Transform2DComponent(Vector2 position, Vector2 limits, Vector2 size)
         {            
             Limits = limits;

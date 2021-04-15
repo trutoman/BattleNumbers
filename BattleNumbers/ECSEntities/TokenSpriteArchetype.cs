@@ -9,9 +9,9 @@ using static BattleNumbers.ECSComponents.CollisionComponent;
 
 namespace BattleNumbers.ECSComponents
 {
-    public class TokenArchetype : ECSArchetype
+    public class TokenSpriteArchetype : ECSArchetype
     {
-        public TokenArchetype() : 
+        public TokenSpriteArchetype() : 
             base(new Type[] {
                 typeof(TokenTypeComponent),
                 typeof(Transform2DComponent),

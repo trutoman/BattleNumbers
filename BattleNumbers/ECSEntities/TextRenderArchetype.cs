@@ -13,14 +13,19 @@ namespace BattleNumbers.ECSEntities
         public TextRenderArchetype() :
             base(new Type[] {
                 typeof(TextRenderComponent),
+                typeof(Transform2DComponent)
             })
         { }
 
         public override ECSEntity CreateEntity(ECSEntity entity, params object[] args)
         {
             SpriteFont font = (SpriteFont)args[0];
-            TextRenderComponent text = new TextRenderComponent(font);
+            string textValue = (string)args[1];            
 
+            TextRenderComponent text = new TextRenderComponent(textValue, font);
+            Transform2DComponent transform2D = new Transform2DComponent(new Vector2((float)args[2], (float)args[3]));
+
+            entity.AttachComponent(transform2D);
             entity.AttachComponent(text);
 
             return entity;

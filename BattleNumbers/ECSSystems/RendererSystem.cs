@@ -121,7 +121,7 @@ namespace BattleNumbers.ECSSystems
                 origin: Vector2.Zero,
                 object2D.Scale,
                 sprite.Effects,
-                sprite.Depth);
+                token.Depth);
 
             this.Batch.DrawString(
                 token.Font,
